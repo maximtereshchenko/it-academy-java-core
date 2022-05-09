@@ -1,4 +1,4 @@
-package by.it_academy.lesson45;
+package by.it_academy.lesson4_5;
 
 /**
  * @author Maxim Tereshchenko
