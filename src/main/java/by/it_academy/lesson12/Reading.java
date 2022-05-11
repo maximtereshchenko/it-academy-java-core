@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 class Reading {
 
     public static void main(String[] args) {
-        String path = "src/main/java/by/it_academy/lesson12/text.txt";
+        String path = "src/main/resources/text.txt";
 
         bytes(path);
         bytesBuffer(path);

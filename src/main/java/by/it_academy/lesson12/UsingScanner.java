@@ -25,7 +25,7 @@ class UsingScanner {
     }
 
     private static void file() {
-        try (var scanner = new Scanner(Paths.get("src/main/java/by/it_academy/lesson12/text.txt"))) {
+        try (var scanner = new Scanner(Paths.get("src/main/resources/text.txt"))) {
             while (scanner.hasNextLine()) {
                 System.out.println(scanner.nextLine());
             }
