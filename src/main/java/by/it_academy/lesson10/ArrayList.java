@@ -1,6 +1,5 @@
 package by.it_academy.lesson10;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -51,7 +50,9 @@ class ArrayList<E> implements List<E> {
     @Override
     public E[] toArray() {
         var result = emptyArray(size);
-        System.arraycopy(array, 0, result, 0, size);
+        for (int i = 0; i < size; i++) {
+            result[i] = array[i];
+        }
         return result;
     }
 
@@ -111,7 +112,7 @@ class ArrayList<E> implements List<E> {
     @Override
     public int indexOf(E element) {
         for (int i = 0; i < size; i++) {
-            if (Objects.equals(array[i], element)) {
+            if (array[i].equals(element)) {
                 return i;
             }
         }
@@ -121,7 +122,17 @@ class ArrayList<E> implements List<E> {
 
     @Override
     public String toString() {
-        return Arrays.toString(Arrays.copyOf(array, size));
+        var builder = new StringBuilder("[");
+        for (int i = 0; i < size; i++) {
+            builder.append(array[i])
+                    .append(',');
+        }
+        if (builder.length() == 1) {
+            return "[]";
+        }
+        return builder.deleteCharAt(builder.length() - 1)
+                .append(']')
+                .toString();
     }
 
     private void extendIfNecessary() {
@@ -129,8 +140,10 @@ class ArrayList<E> implements List<E> {
             return;
         }
 
-        var newArray = emptyArray(array.length + 1);
-        System.arraycopy(array, 0, newArray, 0, array.length);
+        var newArray = emptyArray(array.length * 2);
+        for (int i = 0; i < size; i++) {
+            newArray[i] = array[i];
+        }
 
         array = newArray;
     }

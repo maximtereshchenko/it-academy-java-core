@@ -11,11 +11,11 @@ class Collections {
         System.out.println("ArrayList");
         testList(new ArrayList<>());
         System.out.println("LinkedList");
-        testList(new LinkedList<>());
+        //testList(new LinkedList<>());
         System.out.println("HashSet");
-        testSet(new HashSet<>());
+        //testSet(new HashSet<>());
         System.out.println("HashMap");
-        testMap(new HashMap<>());
+        //testMap(new HashMap<>());
     }
 
     private static void testMap(HashMap<String, Integer> map) {
