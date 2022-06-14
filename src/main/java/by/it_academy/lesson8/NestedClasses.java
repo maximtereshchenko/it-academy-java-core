@@ -7,9 +7,9 @@ class NestedClasses {
 
     public static void main(String[] args) {
         var dataStructure = new DataStructure(new int[]{1, 2, 3, 4, 5});
-
-        for (Integer number : dataStructure) {
-            System.out.println(number);
+        var iterator = dataStructure.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
         }
     }
 }

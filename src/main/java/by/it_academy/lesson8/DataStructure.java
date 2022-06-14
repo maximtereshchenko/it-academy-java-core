@@ -1,11 +1,9 @@
 package by.it_academy.lesson8;
 
-import java.util.Iterator;
-
 /**
  * @author Maxim Tereshchenko
  */
-class DataStructure implements Iterable<Integer> {
+class DataStructure {
 
     private final int[] array;
 
@@ -13,9 +11,8 @@ class DataStructure implements Iterable<Integer> {
         this.array = array;
     }
 
-    @Override
-    public Iterator<Integer> iterator() {
-        class LocalIterator implements Iterator<Integer> {
+    public Iterator iterator() {
+        class LocalIterator implements Iterator {
 
             private int index = 0;
 
@@ -25,12 +22,12 @@ class DataStructure implements Iterable<Integer> {
             }
 
             @Override
-            public Integer next() {
+            public int next() {
                 return array[index++];
             }
         }
 
-        var anonymousIterator = new Iterator<Integer>() {
+        var anonymousIterator = new Iterator() {
 
             private int index = 0;
 
@@ -40,7 +37,7 @@ class DataStructure implements Iterable<Integer> {
             }
 
             @Override
-            public Integer next() {
+            public int next() {
                 return array[index++];
             }
         };
@@ -48,7 +45,7 @@ class DataStructure implements Iterable<Integer> {
         return anonymousIterator;
     }
 
-    private static class StaticNestedIterator implements Iterator<Integer> {
+    private static class StaticNestedIterator implements Iterator {
 
         private final int[] array;
         private int index = 0;
@@ -63,12 +60,12 @@ class DataStructure implements Iterable<Integer> {
         }
 
         @Override
-        public Integer next() {
+        public int next() {
             return array[index++];
         }
     }
 
-    private class InnerIterator implements Iterator<Integer> {
+    private class InnerIterator implements Iterator {
 
         private int index = 0;
 
@@ -78,7 +75,7 @@ class DataStructure implements Iterable<Integer> {
         }
 
         @Override
-        public Integer next() {
+        public int next() {
             return array[index++];
         }
     }
