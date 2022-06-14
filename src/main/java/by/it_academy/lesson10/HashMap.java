@@ -41,7 +41,7 @@ class HashMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        var node = array[bucket(key)];
+        Node<K, V> node = array[bucket(key)];
         while (node != null && !node.getKey().equals(key)) {
             node = node.next;
         }
@@ -51,37 +51,37 @@ class HashMap<K, V> implements Map<K, V> {
     @Override
     public V put(K key, V value) {
         extendIfNecessary();
-        var bucket = bucket(key);
-        var current = array[bucket];
+        int bucket = bucket(key);
+        Node<K, V> current = array[bucket];
         if (current == null) {
-            var node = new Node<K, V>(key);
+            Node<K, V> node = new Node<K, V>(key);
             node.value = value;
             array[bucket] = node;
             return null;
         }
         while (!current.getKey().equals(key)) {
             if (current.next == null) {
-                var node = new Node<K, V>(key);
+                Node<K, V> node = new Node<K, V>(key);
                 node.value = value;
                 current.next = node;
                 return null;
             }
         }
-        var replaced = current.value;
+        V replaced = current.value;
         current.value = value;
         return replaced;
     }
 
     @Override
     public V remove(K key) {
-        var bucket = bucket(key);
-        var node = array[bucket];
+        int bucket = bucket(key);
+        Node<K, V> node = array[bucket];
         if (node.getKey().equals(key)) {
             array[bucket] = node.next;
             return node.getValue();
         }
-        var previous = node;
-        var current = node.next;
+        Node<K, V> previous = node;
+        Node<K, V> current = node.next;
         while (current != null && !current.getKey().equals(key)) {
             previous = current;
             current = current.next;
@@ -115,7 +115,7 @@ class HashMap<K, V> implements Map<K, V> {
 
                     @Override
                     public Node<K, V> next() {
-                        var result = node;
+                        Node<K, V> result = node;
                         if (node.next != null) {
                             node = node.next;
                         } else {
@@ -142,7 +142,7 @@ class HashMap<K, V> implements Map<K, V> {
 
     @Override
     public String toString() {
-        var builder = new StringBuilder("[");
+        StringBuilder builder = new StringBuilder("[");
         for (Entry<K, V> node : this) {
             builder.append(node)
                     .append(',');
@@ -167,11 +167,11 @@ class HashMap<K, V> implements Map<K, V> {
             return;
         }
 
-        var old = array;
+        Node<K, V>[] old = array;
         array = new Node[old.length * 2];
         for (Node<K, V> node : old) {
             if (node != null) {
-                var current = node;
+                Node<K, V> current = node;
                 while (current != null) {
                     put(current.getKey(), current.getValue());
                     current = current.next;

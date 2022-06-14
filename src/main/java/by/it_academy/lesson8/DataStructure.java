@@ -27,7 +27,7 @@ class DataStructure {
             }
         }
 
-        var anonymousIterator = new Iterator() {
+        Iterator anonymousIterator = new Iterator() {
 
             private int index = 0;
 

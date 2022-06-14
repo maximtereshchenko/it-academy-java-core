@@ -12,18 +12,18 @@ class ReflectionApi {
     private int number = 10;
 
     public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        var target = new ReflectionApi();
+        ReflectionApi target = new ReflectionApi();
         for (Method method : target.getClass().getDeclaredMethods()) {
             System.out.println(method);
         }
         for (Field field : target.getClass().getDeclaredFields()) {
             System.out.println(field);
         }
-        var field = target.getClass().getDeclaredField("number");
+        Field field = target.getClass().getDeclaredField("number");
         System.out.println("target.getNumber() = " + target.getNumber());
         field.set(target, 20);
         System.out.println("target.getNumber() = " + target.getNumber());
-        var method = target.getClass().getDeclaredMethod("setNumber", int.class);
+        Method method = target.getClass().getDeclaredMethod("setNumber", int.class);
         method.invoke(target, 30);
         System.out.println("target.getNumber() = " + target.getNumber());
     }

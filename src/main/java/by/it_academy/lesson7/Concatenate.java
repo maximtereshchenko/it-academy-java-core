@@ -7,14 +7,14 @@ class Concatenate {
 
     public static void main(String[] args) {
         for (int i = 0; i < 5; i++) {
-            var start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             concat();
             System.out.println(System.currentTimeMillis() - start);
         }
     }
 
     private static String concat() {
-        var result = "";
+        String result = "";
 
         for (int i = 0; i < 100000; i++) {
             result += "a";

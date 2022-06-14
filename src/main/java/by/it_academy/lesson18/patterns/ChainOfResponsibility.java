@@ -56,7 +56,7 @@ class AlwaysValid implements Filter {
 class ChainOfResponsibility {
 
     public static void main(String[] args) {
-        var filter = new AllUpperCase(new WithoutA(new AlwaysValid()));
+        Filter filter = new AllUpperCase(new WithoutA(new AlwaysValid()));
 
         System.out.println("filter.isValid(\"abc\") = " + filter.isValid("abc"));
         System.out.println("filter.isValid(\"ABC\") = " + filter.isValid("ABC"));

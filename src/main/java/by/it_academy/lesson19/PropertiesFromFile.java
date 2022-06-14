@@ -12,9 +12,9 @@ import java.util.Properties;
 class PropertiesFromFile implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) {
-        var fileName = proxy.getClass().getInterfaces()[0].getSimpleName().toLowerCase();
-        try (var stream = new FileInputStream(fileName)) {
-            var properties = new Properties();
+        String fileName = proxy.getClass().getInterfaces()[0].getSimpleName().toLowerCase();
+        try (FileInputStream stream = new FileInputStream(fileName)) {
+            Properties properties = new Properties();
             properties.load(stream);
             if (properties.containsKey(method.getName())) {
                 return properties.getProperty(method.getName());

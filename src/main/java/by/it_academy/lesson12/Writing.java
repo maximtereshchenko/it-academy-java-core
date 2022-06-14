@@ -18,9 +18,9 @@ class Writing {
     }
 
     private static void symbolsBuffer() {
-        try (var writer = new FileWriter("symbolsBuffer")) {
-            var text = "Hello, world!";
-            var chars = new char[text.length()];
+        try (FileWriter writer = new FileWriter("symbolsBuffer")) {
+            String text = "Hello, world!";
+            char[] chars = new char[text.length()];
             for (int i = 0; i < text.length(); i++) {
                 chars[i] = text.charAt(i);
             }
@@ -31,7 +31,7 @@ class Writing {
     }
 
     private static void symbols() {
-        try (var writer = new FileWriter("symbols")) {
+        try (FileWriter writer = new FileWriter("symbols")) {
             writer.write("Hello, world!");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -39,8 +39,8 @@ class Writing {
     }
 
     private static void bytes() {
-        try (var stream = new FileOutputStream("bytes")) {
-            var text = "Hello, world!";
+        try (FileOutputStream stream = new FileOutputStream("bytes")) {
+            String text = "Hello, world!";
             for (int i = 0; i < text.length(); i++) {
                 stream.write(text.charAt(i));
             }
@@ -50,8 +50,8 @@ class Writing {
     }
 
     private static void bytesBuffer() {
-        try (var stream = new FileOutputStream("bytesBuffer")) {
-            var text = "Hello, world!";
+        try (FileOutputStream stream = new FileOutputStream("bytesBuffer")) {
+            String text = "Hello, world!";
             stream.write(text.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -12,12 +12,12 @@ class Lambdas {
     public static void main(String[] args) {
         useAction(() -> System.out.println("Hello from lambda"));
 
-        var text = "some text";
+        String text = "some text";
         Action action = () -> System.out.println(text);
         //text = "some other text";
 
         Function<Object, String> staticMethodReference = Objects::toString;
-        var object = new Object();
+        Object object = new Object();
         Supplier<String> methodReference = object::toString;
         Supplier<Object> constructorReference = Object::new;
     }

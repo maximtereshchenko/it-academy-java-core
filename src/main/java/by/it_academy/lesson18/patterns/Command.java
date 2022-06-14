@@ -40,7 +40,7 @@ class Bank {
     }
 
     void revertLast() {
-        var lastIndex = commands.size() - 1;
+        int lastIndex = commands.size() - 1;
         commands.get(lastIndex).revert();
         commands.remove(lastIndex);
     }
@@ -70,9 +70,9 @@ class AddCommand implements Command {
 class CommandExample {
 
     public static void main(String[] args) {
-        var wallet = new Wallet();
-        var bank = new Bank();
-        var command = new AddCommand(wallet, 10);
+        Wallet wallet = new Wallet();
+        Bank bank = new Bank();
+        Command command = new AddCommand(wallet, 10);
 
         System.out.println("wallet.money() = " + wallet.money());
         bank.receive(command);

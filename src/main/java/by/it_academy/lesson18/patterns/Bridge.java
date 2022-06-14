@@ -96,11 +96,11 @@ class OldTv implements TvSet {
 class Bridge {
 
     public static void main(String[] args) {
-        var modernTv = new ModernTv();
-        var oldTv = new OldTv();
+        TvSet modernTv = new ModernTv();
+        TvSet oldTv = new OldTv();
 
-        var application = new Application(modernTv);
-        var son = new Son(oldTv);
+        RemoteControl application = new Application(modernTv);
+        RemoteControl son = new Son(oldTv);
 
         System.out.println("oldTv.currentVolume() = " + oldTv.currentVolume());
         son.turnUpVolume();

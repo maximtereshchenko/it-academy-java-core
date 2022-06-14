@@ -12,7 +12,7 @@ class Threads {
     }
 
     private static void runnable() throws InterruptedException {
-        var runnable = new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 System.out.println("Running");
@@ -24,13 +24,13 @@ class Threads {
                 System.out.println("Complete");
             }
         };
-        var thread = new Thread(runnable);
+        Thread thread = new Thread(runnable);
         thread.start();
         thread.join();
     }
 
     private static void interruption() throws InterruptedException {
-        var endlessThread = new Thread() {
+        Thread endlessThread = new Thread() {
             @Override
             public void run() {
                 while (true) {
@@ -51,7 +51,7 @@ class Threads {
     }
 
     private static void states() throws InterruptedException {
-        var thread = new Thread() {
+        Thread thread = new Thread() {
             @Override
             public void run() {
                 System.out.println("Running");

@@ -59,7 +59,7 @@ class Component {
 class Observer {
 
     public static void main(String[] args) {
-        var component = new Component(new Publisher(new First(), new Second()));
+        Component component = new Component(new Publisher(new First(), new Second()));
 
         component.changeState("1");
         component.changeState("2");

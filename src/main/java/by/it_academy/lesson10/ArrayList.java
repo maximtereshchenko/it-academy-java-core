@@ -25,7 +25,7 @@ class ArrayList<E> implements List<E> {
 
     @Override
     public boolean remove(E element) {
-        var index = indexOf(element);
+        int index = indexOf(element);
 
         if (index == -1) {
             return false;
@@ -49,7 +49,7 @@ class ArrayList<E> implements List<E> {
 
     @Override
     public E[] toArray() {
-        var result = emptyArray(size);
+        E[] result = emptyArray(size);
         for (int i = 0; i < size; i++) {
             result[i] = array[i];
         }
@@ -83,7 +83,7 @@ class ArrayList<E> implements List<E> {
     @Override
     public E set(int index, E element) {
         Objects.checkIndex(index, size);
-        var previous = array[index];
+        E previous = array[index];
         array[index] = element;
         return previous;
     }
@@ -101,7 +101,7 @@ class ArrayList<E> implements List<E> {
     @Override
     public E remove(int index) {
         Objects.checkIndex(index, size);
-        var element = array[index];
+        E element = array[index];
         for (int i = index; i < size - 1; i++) {
             array[i] = array[i + 1];
         }
@@ -122,7 +122,7 @@ class ArrayList<E> implements List<E> {
 
     @Override
     public String toString() {
-        var builder = new StringBuilder("[");
+        StringBuilder builder = new StringBuilder("[");
         for (int i = 0; i < size; i++) {
             builder.append(array[i])
                     .append(',');
@@ -140,7 +140,7 @@ class ArrayList<E> implements List<E> {
             return;
         }
 
-        var newArray = emptyArray(array.length * 2);
+        E[] newArray = emptyArray(array.length * 2);
         for (int i = 0; i < size; i++) {
             newArray[i] = array[i];
         }

@@ -8,7 +8,7 @@ import java.lang.reflect.Proxy;
 class JdkProxy {
 
     public static void main(String[] args) {
-        var instance = (TextFile) Proxy.newProxyInstance(JdkProxy.class.getClassLoader(), new Class[]{TextFile.class}, new PropertiesFromFile());
+        TextFile instance = (TextFile) Proxy.newProxyInstance(JdkProxy.class.getClassLoader(), new Class[]{TextFile.class}, new PropertiesFromFile());
 
         System.out.println("instance.number() = " + instance.number());
         System.out.println("instance.text() = " + instance.text());

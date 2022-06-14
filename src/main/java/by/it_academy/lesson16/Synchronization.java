@@ -1,5 +1,7 @@
 package by.it_academy.lesson16;
 
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -9,9 +11,9 @@ import java.util.concurrent.ThreadLocalRandom;
 final class Synchronization {
 
     public static void main(String[] args) {
-        var executorService = Executors.newCachedThreadPool();
-        var random = ThreadLocalRandom.current();
-        var resource = new Resource();
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        Random random = ThreadLocalRandom.current();
+        Resource resource = new Resource();
 
         for (int i = 0; i < 3; i++) {
             executorService.execute(() -> {

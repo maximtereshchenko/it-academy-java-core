@@ -18,7 +18,7 @@ class Exceptions {
             System.out.println("Caught unchecked");
         }
 
-        try (var resource = new Resource()) {
+        try (Resource resource = new Resource()) {
             resource.doSomething();
         } catch (UncheckedException e) {
             System.out.println("Resource threw exception");

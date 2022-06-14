@@ -1,5 +1,6 @@
 package by.it_academy.lesson16;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -14,9 +15,9 @@ final class Locks {
     }
 
     private static void deadlock() {
-        var executorService = Executors.newFixedThreadPool(2);
-        var resource1 = new Object();
-        var resource2 = new Object();
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        Object resource1 = new Object();
+        Object resource2 = new Object();
 
         executorService.execute(() -> {
             synchronized (resource1) {
@@ -50,10 +51,10 @@ final class Locks {
     }
 
     private static void livelock() {
-        var executorService = Executors.newFixedThreadPool(2);
-        var resource = new Object();
-        var worker1 = new Worker(resource);
-        var worker2 = new Worker(resource);
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        Object resource = new Object();
+        Worker worker1 = new Worker(resource);
+        Worker worker2 = new Worker(resource);
         worker1.setOther(worker2);
         worker2.setOther(worker1);
 
@@ -62,10 +63,10 @@ final class Locks {
     }
 
     private static void starvation() {
-        var resource = new Object();
+        Object resource = new Object();
 
         Runnable runnable = () -> {
-            var counter = 0;
+            int counter = 0;
             while (counter++ != 100) {
                 synchronized (resource) {
                     try {
@@ -79,7 +80,7 @@ final class Locks {
 
             System.out.println(Thread.currentThread().getName());
         };
-        var executorService = Executors.newFixedThreadPool(3);
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
 
         for (int i = 0; i < 3; i++) {
             executorService.execute(runnable);

@@ -16,12 +16,12 @@ class InterfaceSegregation {
         //new Scanner("");
         //new BufferedReader(new InputStreamReader(new FileInputStream("")));
 
-        try (var scanner = new Scanner(Paths.get("file"))) {
+        try (Scanner scanner = new Scanner(Paths.get("file"))) {
             read(new ScannerAdapter(scanner));
         }
     }
 
     public static void read(FileReader fileReader) {
-        var file = fileReader.read("file");
+        String file = fileReader.read("file");
     }
 }

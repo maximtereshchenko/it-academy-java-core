@@ -1,6 +1,8 @@
 package by.it_academy.lesson15;
 
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -10,14 +12,14 @@ import java.util.concurrent.ThreadLocalRandom;
 class WorkStealingPool {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        var random = ThreadLocalRandom.current();
+        Random random = ThreadLocalRandom.current();
 
-        var executorService = Executors.newWorkStealingPool();
+        ExecutorService executorService = Executors.newWorkStealingPool();
 
         for (int i = 0; i < 10; i++) {
-            var start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
 
-            var sum = executorService.submit(() ->
+            int sum = executorService.submit(() ->
                             random.ints()
                                     .parallel()
                                     .limit(1000000000)

@@ -24,8 +24,8 @@ class Reading {
     }
 
     private static void symbols(String path) {
-        try (var reader = new FileReader(path, StandardCharsets.UTF_8)) {
-            var read = reader.read();
+        try (FileReader reader = new FileReader(path, StandardCharsets.UTF_8)) {
+            int read = reader.read();
             while (read != -1) {
                 System.out.print((char) read);
                 read = reader.read();
@@ -37,9 +37,9 @@ class Reading {
     }
 
     private static void symbolsBuffer(String path) {
-        try (var reader = new FileReader(path, StandardCharsets.UTF_8)) {
-            var buffer = new char[1000];
-            var read = -1;
+        try (FileReader reader = new FileReader(path, StandardCharsets.UTF_8)) {
+            char[] buffer = new char[1000];
+            int read = -1;
             do {
                 read = reader.read(buffer);
                 for (int i = 0; i < read; i++) {
@@ -53,9 +53,9 @@ class Reading {
     }
 
     private static void bytesBuffer(String path) {
-        try (var stream = new FileInputStream(path)) {
-            var buffer = new byte[1000];
-            var read = -1;
+        try (FileInputStream stream = new FileInputStream(path)) {
+            byte[] buffer = new byte[1000];
+            int read = -1;
             do {
                 read = stream.read(buffer);
                 for (int i = 0; i < read; i++) {
@@ -69,8 +69,8 @@ class Reading {
     }
 
     private static void bytes(String path) {
-        try (var stream = new FileInputStream(path)) {
-            var read = stream.read();
+        try (FileInputStream stream = new FileInputStream(path)) {
+            int read = stream.read();
             while (read != -1) {
                 System.out.print((char) read);
                 read = stream.read();
@@ -82,11 +82,11 @@ class Reading {
     }
 
     private static void console() {
-        try (var reader = new BufferedReader(new InputStreamReader(System.in))) {
-            var buffer = new char[1000];
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            char[] buffer = new char[1000];
             while (true) {
-                var read = reader.read(buffer);
-                var builder = new StringBuilder();
+                int read = reader.read(buffer);
+                StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < read; i++) {
                     builder.append(buffer[i]);
                 }

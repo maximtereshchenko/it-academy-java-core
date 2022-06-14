@@ -7,14 +7,14 @@ class Buffer {
 
     public static void main(String[] args) {
         for (int i = 0; i < 5; i++) {
-            var start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             buffer();
             System.out.println(System.currentTimeMillis() - start);
         }
     }
 
     private static String buffer() {
-        var buffer = new StringBuffer();
+        StringBuffer buffer = new StringBuffer();
 
         for (int i = 0; i < 100000; i++) {
             buffer.append("a");

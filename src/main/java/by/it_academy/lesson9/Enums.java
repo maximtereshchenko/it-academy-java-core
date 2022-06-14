@@ -8,7 +8,7 @@ import java.util.Arrays;
 class Enums {
 
     public static void main(String[] args) {
-        var monday = DayOfWeek.MONDAY;
+        DayOfWeek monday = DayOfWeek.MONDAY;
 
         System.out.println("monday.name() = " + monday.name());
         System.out.println("monday.ordinal() = " + monday.ordinal());

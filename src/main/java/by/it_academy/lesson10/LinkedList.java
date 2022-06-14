@@ -15,7 +15,7 @@ class LinkedList<E> implements List<E> {
             return 0;
         }
 
-        var current = head;
+        Node<E> current = head;
         int size = 1;
         while (current.next != null) {
             size++;
@@ -27,12 +27,12 @@ class LinkedList<E> implements List<E> {
 
     @Override
     public boolean add(E element) {
-        var node = new Node<E>();
+        Node<E> node = new Node<E>();
         node.value = element;
         if (head == null) {
             head = node;
         } else {
-            var current = head;
+            Node<E> current = head;
             while (current.next != null) {
                 current = current.next;
             }
@@ -43,7 +43,7 @@ class LinkedList<E> implements List<E> {
 
     @Override
     public boolean remove(E element) {
-        var index = indexOf(element);
+        int index = indexOf(element);
 
         if (index == -1) {
             return false;
@@ -64,9 +64,9 @@ class LinkedList<E> implements List<E> {
 
     @Override
     public E[] toArray() {
-        var result = new Object[size()];
-        var index = 0;
-        var iterator = iterator();
+        Object[] result = new Object[size()];
+        int index = 0;
+        Iterator<E> iterator = iterator();
         while (iterator.hasNext()) {
             result[index++] = iterator.next();
         }
@@ -78,7 +78,7 @@ class LinkedList<E> implements List<E> {
         if (index < 0) {
             throw new IndexOutOfBoundsException();
         }
-        var current = head;
+        Node<E> current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
@@ -90,11 +90,11 @@ class LinkedList<E> implements List<E> {
         if (index < 0) {
             throw new IndexOutOfBoundsException();
         }
-        var current = head;
+        Node<E> current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
-        var replaced = current.value;
+        E replaced = current.value;
         current.value = element;
         return replaced;
     }
@@ -104,18 +104,18 @@ class LinkedList<E> implements List<E> {
         if (index < 0) {
             throw new IndexOutOfBoundsException();
         }
-        var node = new Node<E>();
+        Node<E> node = new Node<E>();
         node.value = element;
         if (index == 0) {
             node.next = head;
             head = node;
             return;
         }
-        var current = head;
+        Node<E> current = head;
         for (int i = 0; i < index - 1; i++) {
             current = current.next;
         }
-        var next = current.next;
+        Node<E> next = current.next;
         current.next = node;
         node.next = next;
     }
@@ -126,22 +126,22 @@ class LinkedList<E> implements List<E> {
             throw new IndexOutOfBoundsException();
         }
         if (index == 0) {
-            var old = head;
+            Node<E> old = head;
             head = head.next;
             return old.value;
         }
-        var current = head;
+        Node<E> current = head;
         for (int i = 0; i < index - 1; i++) {
             current = current.next;
         }
-        var old = current.next;
+        Node<E> old = current.next;
         current.next = old.next;
         return old.value;
     }
 
     @Override
     public int indexOf(E element) {
-        var current = head;
+        Node<E> current = head;
         int index = 0;
         while (current.value != element) {
             index++;
@@ -166,7 +166,7 @@ class LinkedList<E> implements List<E> {
 
             @Override
             public E next() {
-                var value = current.value;
+                E value = current.value;
                 current = current.next;
                 return value;
             }
@@ -175,7 +175,7 @@ class LinkedList<E> implements List<E> {
 
     @Override
     public String toString() {
-        var builder = new StringBuilder("[");
+        StringBuilder builder = new StringBuilder("[");
         for (E e : this) {
             builder.append(e)
                     .append(',');

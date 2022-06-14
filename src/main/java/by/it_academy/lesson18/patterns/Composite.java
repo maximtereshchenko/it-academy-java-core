@@ -44,7 +44,7 @@ class Box implements Order {
 class Composite {
 
     public static void main(String[] args) {
-        var box = new Box(
+        Order box = new Box(
                 new Box(
                         new Item(10),
                         new Item(20)

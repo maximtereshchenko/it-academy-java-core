@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.stream.Stream;
 
 /**
  * @author Maxim Tereshchenko
@@ -13,13 +14,13 @@ import java.nio.file.attribute.BasicFileAttributes;
 class UsingFiles {
 
     public static void main(String[] args) throws IOException {
-        var filePath = Path.of("some file.txt");
-        var dirPath = Path.of("dir");
+        Path filePath = Path.of("some file.txt");
+        Path dirPath = Path.of("dir");
 
         System.out.println("Files.createFile(filePath) = " + Files.createFile(filePath));
         System.out.println("Files.createDirectory(dirPath) = " + Files.createDirectory(dirPath));
         System.out.println("Files.move(filePath,dirPath) = " + Files.move(filePath, dirPath.resolve("some new file.txt")));
-        try (var stream = Files.list(dirPath)) {
+        try (Stream<Path> stream = Files.list(dirPath)) {
             stream.forEach(path -> System.out.println("in directory path.getFileName() = " + path.getFileName()));
         }
         System.out.println("Files.deleteIfExists(filePath) = " + Files.deleteIfExists(filePath));

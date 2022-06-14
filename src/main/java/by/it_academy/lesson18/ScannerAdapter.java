@@ -15,7 +15,7 @@ public class ScannerAdapter implements FileReader {
 
     @Override
     public String read(String fileName) {
-        var builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
 
         while (scanner.hasNextLine()) {
             builder.append(scanner.nextLine())

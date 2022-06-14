@@ -14,7 +14,7 @@ class BadGreater {
     }
 
     String greet3(String name, boolean polite) {
-        var fullName = polite ? "Mr. " + name : name;
+        String fullName = polite ? "Mr. " + name : name;
         return "Hello, " + fullName + "!";
     }
 }

@@ -10,11 +10,11 @@ import java.util.Arrays;
 class AnnotationExample {
 
     public static void main(String[] args) throws NoSuchMethodException {
-        var myAnnotations = AnnotationExample.class
+        MyAnnotation[] myAnnotations = AnnotationExample.class
                 .getAnnotation(MyAnnotations.class)
                 .value();
 
-        var childMAnnotations = Child.class
+        MyAnnotation[] childMAnnotations = Child.class
                 .getAnnotation(MyAnnotations.class)
                 .value();
 

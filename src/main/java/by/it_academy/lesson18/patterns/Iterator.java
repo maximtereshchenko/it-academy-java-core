@@ -8,7 +8,7 @@ import java.util.List;
 class Iterator {
 
     public static void main(String[] args) {
-        var strings = List.of("1", "2");
+        List<String> strings = List.of("1", "2");
 
         for (String string : strings) { //using iterator
             System.out.println(string);

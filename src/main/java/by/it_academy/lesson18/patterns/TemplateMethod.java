@@ -36,7 +36,7 @@ class StaticCollectionSorting extends SortingAlgorithm {
 
     @Override
     List<String> sort(Collection<String> collection) {
-        var list = new ArrayList<>(collection);
+        List<String> list = new ArrayList<>(collection);
         Collections.sort(list);
         return list;
     }
@@ -63,10 +63,10 @@ class RandomCollectionSorting extends SortingAlgorithm {
 class TemplateMethod {
 
     public static void main(String[] args) {
-        var staticCollectionSorting = new StaticCollectionSorting(List.of("3", "1", "2"));
+        SortingAlgorithm staticCollectionSorting = new StaticCollectionSorting(List.of("3", "1", "2"));
         System.out.println("staticCollectionSorting.sorted() = " + staticCollectionSorting.sorted());
 
-        var randomCollectionSorting = new RandomCollectionSorting();
+        SortingAlgorithm randomCollectionSorting = new RandomCollectionSorting();
         System.out.println("randomCollectionSorting.sorted() = " + randomCollectionSorting.sorted());
     }
 }

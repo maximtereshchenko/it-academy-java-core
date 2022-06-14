@@ -2,6 +2,7 @@ package by.it_academy.lesson15;
 
 import java.time.Instant;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -10,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 class ScheduledTasks {
 
     public static void main(String[] args) {
-        var executorService = Executors.newScheduledThreadPool(3);
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 
         executorService.schedule(
                 () -> System.out.println("scheduled " + Instant.now()),

@@ -1,5 +1,6 @@
 package by.it_academy.lesson7;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -8,7 +9,7 @@ import java.util.regex.Pattern;
 class Regex {
 
     public static void main(String[] args) {
-        var text = "ajf abc 123 hfhf -45 afhdfh fdfsf 5 aqw f sf 5 5 -6";
+        String text = "ajf abc 123 hfhf -45 afhdfh fdfsf 5 aqw f sf 5 5 -6";
 
         System.out.println(numbers(text));
         System.out.println(startingWithA(text));
@@ -23,9 +24,9 @@ class Regex {
     }
 
     private static String numbers(String text) {
-        var pattern = Pattern.compile("-?\\d+");
-        var matcher = pattern.matcher(text);
-        var builder = new StringBuilder();
+        Pattern pattern = Pattern.compile("-?\\d+");
+        Matcher matcher = pattern.matcher(text);
+        StringBuilder builder = new StringBuilder();
 
         while (matcher.find()) {
             builder.append(matcher.group())
@@ -37,9 +38,9 @@ class Regex {
     }
 
     private static String startingWithA(String text) {
-        var pattern = Pattern.compile("a\\w+");
-        var matcher = pattern.matcher(text);
-        var builder = new StringBuilder();
+        Pattern pattern = Pattern.compile("a\\w+");
+        Matcher matcher = pattern.matcher(text);
+        StringBuilder builder = new StringBuilder();
 
         while (matcher.find()) {
             builder.append(matcher.group())

@@ -15,13 +15,13 @@ class Boxing {
         int min = Integer.MIN_VALUE;
 
         for (int i = 0; i < 5; i++) {
-            var start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             boxed();
             System.out.println("Boxed " + (System.currentTimeMillis() - start));
         }
 
         for (int i = 0; i < 5; i++) {
-            var start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             primitive();
             System.out.println("Primitive " + (System.currentTimeMillis() - start));
         }

@@ -84,7 +84,7 @@ class Document {
 class State {
 
     public static void main(String[] args) {
-        var document = new Document();
+        Document document = new Document();
 
         System.out.println("document.status() = " + document.status());
         document.review();

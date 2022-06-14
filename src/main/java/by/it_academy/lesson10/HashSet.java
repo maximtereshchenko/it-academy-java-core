@@ -44,9 +44,9 @@ class HashSet<E> implements Set<E> {
 
     @Override
     public E[] toArray() {
-        var result = new Object[size()];
-        var index = 0;
-        var iterator = iterator();
+        Object[] result = new Object[size()];
+        int index = 0;
+        Iterator<E> iterator = iterator();
         while (iterator.hasNext()) {
             result[index++] = iterator.next();
         }
@@ -73,7 +73,7 @@ class HashSet<E> implements Set<E> {
 
     @Override
     public String toString() {
-        var builder = new StringBuilder("[");
+        StringBuilder builder = new StringBuilder("[");
         for (E e : this) {
             builder.append(e)
                     .append(',');

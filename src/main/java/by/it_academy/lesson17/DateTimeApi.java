@@ -31,7 +31,7 @@ class DateTimeApi {
     }
 
     private static void format() {
-        var formatter = DateTimeFormatter.ofPattern(
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
                 "'Era 'G\n" +
                         "'Year 'yyyy\n" +
                         "'Day of year 'D\n" +
@@ -49,7 +49,7 @@ class DateTimeApi {
     }
 
     private static void duration() {
-        var now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
         LocalDateTime finalDateTime = now.plus(Period.ofDays(5));
 
         System.out.println("Duration.between(now,finalDateTime).getSeconds() = " + Duration.between(now, finalDateTime).getSeconds());
@@ -58,7 +58,7 @@ class DateTimeApi {
     }
 
     private static void period() {
-        var now = LocalDate.now();
+        LocalDate now = LocalDate.now();
         LocalDate finalDate = now.plus(Period.ofDays(5));
 
         System.out.println("Period.between(now, finalDate).getDays() = " + Period.between(now, finalDate).getDays());
@@ -67,8 +67,8 @@ class DateTimeApi {
     }
 
     private static void clock() {
-        var defaultClock = Clock.systemDefaultZone();
-        var fixedClock = Clock.fixed(Instant.now(), ZoneId.of("+3"));
+        Clock defaultClock = Clock.systemDefaultZone();
+        Clock fixedClock = Clock.fixed(Instant.now(), ZoneId.of("+3"));
 
         System.out.println("defaultClock = " + defaultClock);
         System.out.println("fixedClock = " + fixedClock);
@@ -81,8 +81,8 @@ class DateTimeApi {
     }
 
     private static void instant() {
-        var now = Instant.now();
-        var oneSecondAhead = now.plusSeconds(1);
+        Instant now = Instant.now();
+        Instant oneSecondAhead = now.plusSeconds(1);
 
         System.out.println("now = " + now);
         System.out.println("oneSecondAhead = " + oneSecondAhead);
@@ -99,7 +99,7 @@ class DateTimeApi {
     }
 
     private static void zonedDateTime() {
-        var now = ZonedDateTime.now();
+        ZonedDateTime now = ZonedDateTime.now();
 
         System.out.println("now = " + now);
 
@@ -112,8 +112,8 @@ class DateTimeApi {
     }
 
     private static void localDateTime() {
-        var now = LocalDateTime.now();
-        var tomorrow = now.plusDays(1);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime tomorrow = now.plusDays(1);
 
         System.out.println("now = " + now);
         System.out.println("tomorrow = " + tomorrow);
@@ -141,8 +141,8 @@ class DateTimeApi {
     }
 
     private static void localTime() {
-        var now = LocalTime.now();
-        var oneSecondAhead = now.plusSeconds(1);
+        LocalTime now = LocalTime.now();
+        LocalTime oneSecondAhead = now.plusSeconds(1);
 
         System.out.println("now = " + now);
         System.out.println("oneSecondAhead = " + oneSecondAhead);
@@ -161,8 +161,8 @@ class DateTimeApi {
     }
 
     private static void localDate() {
-        var now = LocalDate.now();
-        var tomorrow = now.plusDays(1);
+        LocalDate now = LocalDate.now();
+        LocalDate tomorrow = now.plusDays(1);
 
         System.out.println("now = " + now);
         System.out.println("tomorrow = " + tomorrow);

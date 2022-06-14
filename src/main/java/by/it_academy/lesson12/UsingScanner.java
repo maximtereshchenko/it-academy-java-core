@@ -17,15 +17,15 @@ class UsingScanner {
     }
 
     private static void delimiter() {
-        var text = "this-is-text-with-dashes";
-        var scanner = new Scanner(text).useDelimiter("-");
+        String text = "this-is-text-with-dashes";
+        Scanner scanner = new Scanner(text).useDelimiter("-");
         while (scanner.hasNext()) {
             System.out.println(scanner.next());
         }
     }
 
     private static void file() {
-        try (var scanner = new Scanner(Paths.get("src/main/resources/text.txt"))) {
+        try (Scanner scanner = new Scanner(Paths.get("src/main/resources/text.txt"))) {
             while (scanner.hasNextLine()) {
                 System.out.println(scanner.nextLine());
             }
@@ -35,9 +35,9 @@ class UsingScanner {
     }
 
     private static void console() {
-        try (var scanner = new Scanner(System.in)) {
+        try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
-                var line = scanner.nextLine();
+                String line = scanner.nextLine();
                 if (line.isEmpty()) {
                     break;
                 }

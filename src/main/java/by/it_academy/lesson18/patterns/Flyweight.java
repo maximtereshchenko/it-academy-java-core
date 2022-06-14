@@ -33,7 +33,7 @@ class Flyweight {
 //        new Pixel(0,0,new RgbColour(100,100,100));
 //        new Pixel(1,1,new RgbColour(100,100,100));
 //        new Pixel(2,2,new RgbColour(100,100,100));
-        var rgbColour = new RgbColour(100, 100, 100);
+        RgbColour rgbColour = new RgbColour(100, 100, 100);
         new Pixel(0, 0, rgbColour);
         new Pixel(1, 1, rgbColour);
         new Pixel(2, 2, rgbColour);

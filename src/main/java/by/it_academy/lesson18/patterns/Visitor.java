@@ -41,7 +41,7 @@ class Visitor {
 class VisitorExample {
 
     public static void main(String[] args) {
-        var visitor = new Visitor();
+        Visitor visitor = new Visitor();
         Stream.of(
                         new Circle(),
                         new Square()

@@ -1,6 +1,8 @@
 package by.it_academy.lesson16;
 
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -12,8 +14,8 @@ final class Atomics {
     //private static AtomicInteger number = new AtomicInteger(0);
 
     public static void main(String[] args) {
-        var executorService = Executors.newCachedThreadPool();
-        var set = new CopyOnWriteArraySet<Integer>();
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        Set<Integer> set = new CopyOnWriteArraySet<Integer>();
 
         for (int i = 0; i < 10; i++) {
             executorService.execute(() -> {

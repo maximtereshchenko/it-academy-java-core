@@ -43,7 +43,7 @@ class Player {
 class Strategy {
 
     public static void main(String[] args) {
-        var player = new Player();
+        Player player = new Player();
         player.move();
         player.setMovingStrategy(new Slowed());
         player.move();

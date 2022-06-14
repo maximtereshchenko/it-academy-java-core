@@ -21,12 +21,12 @@ class Zip {
     }
 
     private static void readArchive() {
-        try (var stream = new ZipInputStream(new BufferedInputStream(new FileInputStream("archive.zip")))) {
-            var entry = stream.getNextEntry();
+        try (ZipInputStream stream = new ZipInputStream(new BufferedInputStream(new FileInputStream("archive.zip")))) {
+            ZipEntry entry = stream.getNextEntry();
             while (entry != null) {
                 System.out.println(entry.getName());
-                var buffer = new byte[1000];
-                var read = -1;
+                byte[] buffer = new byte[1000];
+                int read = -1;
                 do {
                     read = stream.read(buffer);
                     for (int i = 0; i < read; i++) {
@@ -42,7 +42,7 @@ class Zip {
     }
 
     private static void createArchive() {
-        try (var stream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream("archive.zip")))) {
+        try (ZipOutputStream stream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream("archive.zip")))) {
             stream.putNextEntry(new ZipEntry("file.txt"));
             stream.write("Hello, world!".getBytes(StandardCharsets.UTF_8));
             stream.closeEntry();

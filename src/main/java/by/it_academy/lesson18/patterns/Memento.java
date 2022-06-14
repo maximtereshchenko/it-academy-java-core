@@ -36,11 +36,11 @@ class Label {
 class Memento {
 
     public static void main(String[] args) {
-        var label = new Label();
+        Label label = new Label();
 
         System.out.println("label.getText() = " + label.getText());
         label.setText("remembered text");
-        var save = label.save();
+        Label.Memento save = label.save();
         //save.text;
         System.out.println("label.getText() = " + label.getText());
         label.setText("next text");

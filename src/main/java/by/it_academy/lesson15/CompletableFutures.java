@@ -2,6 +2,7 @@ package by.it_academy.lesson15;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -11,10 +12,10 @@ import java.util.concurrent.TimeUnit;
 class CompletableFutures {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        var service = Executors.newCachedThreadPool();
+        ExecutorService service = Executors.newCachedThreadPool();
 
         try {
-            var message = CompletableFuture.supplyAsync(CompletableFutures::message, service)
+            CompletableFuture<String> message = CompletableFuture.supplyAsync(CompletableFutures::message, service)
                     .exceptionally(e -> {
                         System.out.println("Could not find create message");
                         return "default message";

@@ -94,9 +94,9 @@ class TurnOnClickTurnOffHold implements Mediator {
 class MediatorExample {
 
     public static void main(String[] args) {
-        var switchLampOnClick = new SwitchLampOnClick();
-        var firstButton = new Button(switchLampOnClick);
-        var lamp = new Lamp();
+        SwitchLampOnClick switchLampOnClick = new SwitchLampOnClick();
+        Button firstButton = new Button(switchLampOnClick);
+        Lamp lamp = new Lamp();
         switchLampOnClick.setButton(firstButton);
         switchLampOnClick.setLamp(lamp);
 
@@ -109,8 +109,8 @@ class MediatorExample {
         System.out.println("lamp.isTurnedOn() = " + lamp.isTurnedOn());
         System.out.println();
 
-        var turnOnClickTurnOffHold = new TurnOnClickTurnOffHold();
-        var secondButton = new Button(turnOnClickTurnOffHold);
+        TurnOnClickTurnOffHold turnOnClickTurnOffHold = new TurnOnClickTurnOffHold();
+        Button secondButton = new Button(turnOnClickTurnOffHold);
         turnOnClickTurnOffHold.setButton(secondButton);
         turnOnClickTurnOffHold.setLamp(lamp);
 

@@ -7,14 +7,14 @@ class Build {
 
     public static void main(String[] args) {
         for (int i = 0; i < 5; i++) {
-            var start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             build();
             System.out.println(System.currentTimeMillis() - start);
         }
     }
 
     private static String build() {
-        var builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < 100000; i++) {
             builder.append("a");

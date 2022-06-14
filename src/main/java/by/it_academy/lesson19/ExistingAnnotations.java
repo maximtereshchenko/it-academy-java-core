@@ -9,7 +9,7 @@ import java.util.List;
 class ExistingAnnotations {
 
     public static void main(String[] args) {
-        var deprecatedClass = new DeprecatedClass();
+        DeprecatedClass deprecatedClass = new DeprecatedClass();
         safeVarargs(new ArrayList<>());
     }
 
