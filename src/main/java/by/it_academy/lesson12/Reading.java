@@ -39,7 +39,7 @@ class Reading {
     private static void symbolsBuffer(String path) {
         try (FileReader reader = new FileReader(path, StandardCharsets.UTF_8)) {
             char[] buffer = new char[1000];
-            int read = -1;
+            int read;
             do {
                 read = reader.read(buffer);
                 for (int i = 0; i < read; i++) {
@@ -55,7 +55,7 @@ class Reading {
     private static void bytesBuffer(String path) {
         try (FileInputStream stream = new FileInputStream(path)) {
             byte[] buffer = new byte[1000];
-            int read = -1;
+            int read;
             do {
                 read = stream.read(buffer);
                 for (int i = 0; i < read; i++) {

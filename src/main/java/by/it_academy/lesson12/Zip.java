@@ -5,7 +5,6 @@ import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -26,7 +25,7 @@ class Zip {
             while (entry != null) {
                 System.out.println(entry.getName());
                 byte[] buffer = new byte[1000];
-                int read = -1;
+                int read;
                 do {
                     read = stream.read(buffer);
                     for (int i = 0; i < read; i++) {
@@ -44,10 +43,10 @@ class Zip {
     private static void createArchive() {
         try (ZipOutputStream stream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream("archive.zip")))) {
             stream.putNextEntry(new ZipEntry("file.txt"));
-            stream.write("Hello, world!".getBytes(StandardCharsets.UTF_8));
+            stream.write("Hello, world!".getBytes());
             stream.closeEntry();
             stream.putNextEntry(new ZipEntry("file2.txt"));
-            stream.write("Hello, world!2".getBytes(StandardCharsets.UTF_8));
+            stream.write("Hello, world!2".getBytes());
             stream.closeEntry();
         } catch (IOException e) {
             throw new RuntimeException(e);
