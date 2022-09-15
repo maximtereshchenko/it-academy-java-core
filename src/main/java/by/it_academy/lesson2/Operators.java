@@ -22,21 +22,21 @@ class Operators {
         System.out.println("a = " + a);
         System.out.println("b = " + b);
 
-        int binaryA = 0b1111100;
-        int binaryB = 0b0001111;
+        int binaryA = 0b11111111111111111111000000000000;
+        int binaryB = 0b00000000000011111111111111111111;
         System.out.println("Bitwise operators");
-        System.out.println("binaryA = " + binary(binaryA));
-        System.out.println("binaryB = " + binary(binaryB));
-        System.out.println("A & B = " + binary(binaryA & binaryB));
-        System.out.println("A | B = " + binary(binaryA | binaryB));
-        System.out.println("A ^ B = " + binary(binaryA ^ binaryB));
-        System.out.println("~A = " + binary(~binaryA));
-        System.out.println("A << 2 = " + binary(binaryA << 2));
-        System.out.println("MAX_VALUE = " + binary(Integer.MAX_VALUE));
-        System.out.println("MIN_VALUE = " + binary(Integer.MIN_VALUE));
-        System.out.println("MIN_VALUE >> 3 = " + binary(Integer.MIN_VALUE >> 3));
+        System.out.println("binaryA         = " + binary(binaryA));
+        System.out.println("binaryB         = " + binary(binaryB));
+        System.out.println("A & B           = " + binary(binaryA & binaryB));
+        System.out.println("A | B           = " + binary(binaryA | binaryB));
+        System.out.println("A ^ B           = " + binary(binaryA ^ binaryB));
+        System.out.println("~A              = " + binary(~binaryA));
+        System.out.println("A << 2          = " + binary(binaryA << 2));
+        System.out.println("MAX_VALUE       = " + binary(Integer.MAX_VALUE));
+        System.out.println("MIN_VALUE       = " + binary(Integer.MIN_VALUE));
+        System.out.println("MIN_VALUE >> 3  = " + binary(Integer.MIN_VALUE >> 3));
         System.out.println("MIN_VALUE >>> 3 = " + binary(Integer.MIN_VALUE >>> 3));
-        System.out.println("MAX_VALUE >> 3 = " + binary(Integer.MAX_VALUE >> 3));
+        System.out.println("MAX_VALUE >> 3  = " + binary(Integer.MAX_VALUE >> 3));
         System.out.println("MAX_VALUE >>> 3 = " + binary(Integer.MAX_VALUE >>> 3));
 
         int x = 5;
