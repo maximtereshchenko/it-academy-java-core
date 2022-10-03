@@ -12,15 +12,7 @@ enum DayOfWeek {
     SATURDAY(false),
     SUNDAY(false);
 
-    static {
-        System.out.println("static");
-    }
-
     private final boolean workingDay;
-
-    {
-        System.out.println("instance");
-    }
 
     DayOfWeek(boolean workingDay) {
         this.workingDay = workingDay;
