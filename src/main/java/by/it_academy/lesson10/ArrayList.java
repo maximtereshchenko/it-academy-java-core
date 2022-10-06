@@ -1,7 +1,6 @@
 package by.it_academy.lesson10;
 
 import java.util.Iterator;
-import java.util.Objects;
 
 /**
  * @author Maxim Tereshchenko
@@ -26,11 +25,9 @@ class ArrayList<E> implements List<E> {
     @Override
     public boolean remove(E element) {
         int index = indexOf(element);
-
         if (index == -1) {
             return false;
         }
-
         return remove(index) != null;
     }
 
@@ -59,7 +56,6 @@ class ArrayList<E> implements List<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
-
             private int index = 0;
 
             @Override
@@ -76,13 +72,11 @@ class ArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        Objects.checkIndex(index, size);
         return array[index];
     }
 
     @Override
     public E set(int index, E element) {
-        Objects.checkIndex(index, size);
         E previous = array[index];
         array[index] = element;
         return previous;
@@ -90,7 +84,6 @@ class ArrayList<E> implements List<E> {
 
     @Override
     public void add(int index, E element) {
-        Objects.checkIndex(index, size);
         E replaced = element;
         for (int i = index; i < size; i++) {
             replaced = set(i, replaced);
@@ -100,7 +93,6 @@ class ArrayList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
-        Objects.checkIndex(index, size);
         E element = array[index];
         for (int i = index; i < size - 1; i++) {
             array[i] = array[i + 1];
@@ -116,21 +108,19 @@ class ArrayList<E> implements List<E> {
                 return i;
             }
         }
-
         return -1;
     }
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("[");
-        for (int i = 0; i < size; i++) {
-            builder.append(array[i])
-                    .append(',');
-        }
-        if (builder.length() == 1) {
+        if (size == 0) {
             return "[]";
         }
-        return builder.deleteCharAt(builder.length() - 1)
+        StringBuilder builder = new StringBuilder("[");
+        for (int i = 0; i < size; i++) {
+            builder.append(array[i]).append(", ");
+        }
+        return builder.delete(builder.length() - 2, builder.length())
                 .append(']')
                 .toString();
     }
@@ -139,13 +129,11 @@ class ArrayList<E> implements List<E> {
         if (size < array.length) {
             return;
         }
-
-        E[] newArray = emptyArray(array.length * 2);
-        for (int i = 0; i < size; i++) {
-            newArray[i] = array[i];
+        E[] extended = emptyArray(array.length * 2);
+        for (int i = 0; i < array.length; i++) {
+            extended[i] = array[i];
         }
-
-        array = newArray;
+        array = extended;
     }
 
     private E[] emptyArray(int size) {
