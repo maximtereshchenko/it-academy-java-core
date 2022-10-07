@@ -1,6 +1,6 @@
 package by.it_academy.lesson10;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * @author Maxim Tereshchenko
@@ -11,14 +11,14 @@ class Collections {
         System.out.println("ArrayList");
         testList(new ArrayList<>());
         System.out.println("LinkedList");
-        //testList(new LinkedList<>());
+        testList(new LinkedList<>());
         System.out.println("HashSet");
-        //testSet(new HashSet<>());
+        testSet(new HashSet<>());
         System.out.println("HashMap");
-        //testMap(new HashMap<>());
+        testMap(new HashMap<>());
     }
 
-    private static void testMap(HashMap<String, Integer> map) {
+    private static void testMap(Map<String, Integer> map) {
         map.put("1", 1);
         map.put("2", 2);
         map.put("3", 3);
@@ -37,7 +37,7 @@ class Collections {
 
         System.out.println("map = " + map);
         System.out.println("Iterator");
-        for (Map.Entry<String, Integer> entry : map) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
             System.out.println(entry);
         }
 
