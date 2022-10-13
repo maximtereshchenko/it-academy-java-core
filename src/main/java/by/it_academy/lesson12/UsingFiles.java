@@ -1,11 +1,7 @@
 package by.it_academy.lesson12;
 
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.stream.Stream;
 
@@ -20,7 +16,7 @@ class UsingFiles {
 
         System.out.println("Files.createFile(filePath) = " + Files.createFile(filePath));
         System.out.println("Files.createDirectory(dirPath) = " + Files.createDirectory(dirPath));
-        System.out.println("Files.move(filePath,dirPath) = " + Files.move(filePath, dirPath.resolve("some new file.txt")));
+        System.out.println("Files.move(filePath, dirPath.resolve(\"some new file.txt\")) = " + Files.move(filePath, dirPath.resolve("some new file.txt")));
 
         try (Stream<Path> stream = Files.list(dirPath)) {
             stream.forEach(path -> System.out.println("in directory path.getFileName() = " + path.getFileName()));
