@@ -26,9 +26,10 @@ public final class InMemoryGameStates implements GameStates {
     }
 
     @Override
-    public boolean existsByPlayerId(UUID playerId) {
+    public boolean existsByPlayerIdAndPhaseNotOver(UUID playerId) {
         return map.values()
                 .stream()
+                .filter(state -> state.phase() != Phase.OVER)
                 .anyMatch(state -> hasPlayer(playerId, state));
     }
 

@@ -27,8 +27,8 @@ final class Games {
         gameStates.save(game.state());
     }
 
-    boolean hasGameWith(Player player) {
-        return gameStates.existsByPlayerId(player.id());
+    boolean hasActiveGameWith(Player player) {
+        return gameStates.existsByPlayerIdAndPhaseNotOver(player.id());
     }
 
     Game findGameByPlayer(Player player) {

@@ -20,7 +20,7 @@ class QueueService implements AddPlayerToQueueUseCase {
     @Override
     public void add(UUID playerId) {
         Player player = players.findPlayer(playerId);
-        if (games.hasGameWith(player)) {
+        if (games.hasActiveGameWith(player)) {
             throw new GameWithPlayerExists();
         }
         queue.register(player);

@@ -63,6 +63,7 @@ abstract class MultipleSquaresShip extends AbstractShip implements IntactShip {
         return squares.stream()
                 .map(Square::neighbours)
                 .flatMap(Collection::stream)
+                .filter(square -> !squares.contains(square))
                 .collect(Collectors.toSet());
     }
 

@@ -13,30 +13,30 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class PlaceShipUseCaseTest extends SeaBattleTest {
+class PositionShipUseCaseTest extends SeaBattleTest {
 
     @Test
-    void givenNonexistentPlayerId_whenPlaceShip_thenPlayerWasNotFoundThrown() {
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+    void givenNonexistentPlayerId_whenPositionShip_thenPlayerWasNotFoundThrown() {
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         Collection<String> shipCoordinates = List.of();
 
         assertThatThrownBy(() -> useCase.position(firstPlayerId, shipCoordinates)).isInstanceOf(PlayerWasNotFound.class);
     }
 
     @Test
-    void givenNoGameWithPlayerId_whenPlaceShip_thenGameWasNotFoundThrown() {
+    void givenNoGameWithPlayerId_whenPositionShip_thenGameWasNotFoundThrown() {
         seaBattle.registerNewPlayerUseCase().register(firstPlayerId);
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         Collection<String> shipCoordinates = List.of();
 
         assertThatThrownBy(() -> useCase.position(firstPlayerId, shipCoordinates)).isInstanceOf(GameWasNotFound.class);
     }
 
     @Test
-    void givenGameExists_whenPlaceShip_thenShipPlaced() {
+    void givenGameExists_whenPositionShip_thenShipPlaced() {
         startGame();
 
-        seaBattle.placeShipUseCase().position(firstPlayerId, List.of("a1"));
+        seaBattle.positionShipUseCase().position(firstPlayerId, List.of("a1"));
 
         assertThat(seaBattle.boardsQuery().currentGrids(firstPlayerId)).isEqualTo(
                 new GridsQuery.Grids(
@@ -50,54 +50,54 @@ class PlaceShipUseCaseTest extends SeaBattleTest {
     }
 
     @Test
-    void givenShipContainsUnrelatedCells_whenPlaceShip_thenShipIsNotValidThrown() {
+    void givenShipContainsUnrelatedCells_whenPositionShip_thenShipIsNotValidThrown() {
         startGame();
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         List<String> shipCoordinates = List.of("a1", "a3");
 
         assertThatThrownBy(() -> useCase.position(firstPlayerId, shipCoordinates)).isInstanceOf(ShipIsNotValid.class);
     }
 
     @Test
-    void givenNoCoordinates_whenPlaceShip_thenShipIsNotValidThrown() {
+    void givenNoCoordinates_whenPositionShip_thenShipIsNotValidThrown() {
         startGame();
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         List<String> shipCoordinates = List.of();
 
         assertThatThrownBy(() -> useCase.position(firstPlayerId, shipCoordinates)).isInstanceOf(ShipIsNotValid.class);
     }
 
     @Test
-    void givenMoreThan4Coordinates_whenPlaceShip_thenShipIsNotValidThrown() {
+    void givenMoreThan4Coordinates_whenPositionShip_thenShipIsNotValidThrown() {
         startGame();
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         List<String> shipCoordinates = List.of("a1", "a2", "a3", "a4", "a5");
 
         assertThatThrownBy(() -> useCase.position(firstPlayerId, shipCoordinates)).isInstanceOf(ShipIsNotValid.class);
     }
 
     @Test
-    void givenShipIsNotInAStraightLine_whenPlaceShip_thenShipIsNotValidThrown() {
+    void givenShipIsNotInAStraightLine_whenPositionShip_thenShipIsNotValidThrown() {
         startGame();
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         List<String> shipCoordinates = List.of("a1", "a2", "b2");
 
         assertThatThrownBy(() -> useCase.position(firstPlayerId, shipCoordinates)).isInstanceOf(ShipIsNotValid.class);
     }
 
     @Test
-    void givenDuplicateCoordinates_whenPlaceShip_thenShipIsNotValidThrown() {
+    void givenDuplicateCoordinates_whenPositionShip_thenShipIsNotValidThrown() {
         startGame();
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         List<String> shipCoordinates = List.of("a1", "a1");
 
         assertThatThrownBy(() -> useCase.position(firstPlayerId, shipCoordinates)).isInstanceOf(ShipIsNotValid.class);
     }
 
     @Test
-    void givenInvalidRow_whenPlaceShip_thenSquareIsNotValidThrown() {
+    void givenInvalidRow_whenPositionShip_thenSquareIsNotValidThrown() {
         startGame();
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         List<String> shipCoordinates = List.of("z1");
 
         assertThatThrownBy(() -> useCase.position(firstPlayerId, shipCoordinates))
@@ -105,9 +105,9 @@ class PlaceShipUseCaseTest extends SeaBattleTest {
     }
 
     @Test
-    void givenInvalidColumn_whenPlaceShip_thenSquareIsNotValidThrown() {
+    void givenInvalidColumn_whenPositionShip_thenSquareIsNotValidThrown() {
         startGame();
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         List<String> shipCoordinates = List.of("a0");
 
         assertThatThrownBy(() -> useCase.position(firstPlayerId, shipCoordinates))
@@ -115,9 +115,9 @@ class PlaceShipUseCaseTest extends SeaBattleTest {
     }
 
     @Test
-    void givenShipTouchesOtherShip_whenPlaceShip_thenShipIsNotValidThrown() {
+    void givenShipTouchesOtherShip_whenPositionShip_thenShipIsNotValidThrown() {
         startGame();
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         useCase.position(firstPlayerId, List.of("a1"));
         List<String> shipCoordinates = List.of("a2");
 
@@ -128,7 +128,7 @@ class PlaceShipUseCaseTest extends SeaBattleTest {
     @Test
     void givenBoardContains4OneCellShips_whenPlaceOneCellShip_thenShipIsNotValidThrown() {
         startGame();
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         useCase.position(firstPlayerId, List.of("a1"));
         useCase.position(firstPlayerId, List.of("a3"));
         useCase.position(firstPlayerId, List.of("a5"));
@@ -140,9 +140,9 @@ class PlaceShipUseCaseTest extends SeaBattleTest {
     }
 
     @Test
-    void givenBoardsAreFull_whenPlaceShip_thenGameStatusIsBattle() {
+    void givenBoardsAreFull_whenPositionShip_thenGameStatusIsBattle() {
         startBattle();
-        PositionShipUseCase useCase = seaBattle.placeShipUseCase();
+        PositionShipUseCase useCase = seaBattle.positionShipUseCase();
         List<String> shipCoordinates = List.of("a1");
 
         assertThatThrownBy(() -> useCase.position(firstPlayerId, shipCoordinates))

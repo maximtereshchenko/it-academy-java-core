@@ -15,7 +15,7 @@ abstract class SeaBattleTest {
     final UUID secondPlayerId = UUID.fromString("00000000-0000-0000-0000-000000000002");
 
     void placeAllShips(UUID playerId) {
-        ships().forEach(ship -> seaBattle.placeShipUseCase().position(playerId, ship));
+        ships().forEach(ship -> seaBattle.positionShipUseCase().position(playerId, ship));
     }
 
     void startGame() {
@@ -29,6 +29,13 @@ abstract class SeaBattleTest {
         startGame();
         placeAllShips(firstPlayerId);
         placeAllShips(secondPlayerId);
+    }
+
+    void destroyAllEnemyShips() {
+        ships()
+                .stream()
+                .flatMap(Collection::stream)
+                .forEach(square -> seaBattle.shootUseCase().shoot(firstPlayerId, square));
     }
 
     GridsQuery.SquareView[] shipSegments() {

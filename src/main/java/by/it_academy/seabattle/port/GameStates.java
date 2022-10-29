@@ -10,7 +10,7 @@ public interface GameStates {
 
     Optional<State> findByPlayerId(UUID playerId);
 
-    boolean existsByPlayerId(UUID playerId);
+    boolean existsByPlayerIdAndPhaseNotOver(UUID playerId);
 
     void save(State state);
 

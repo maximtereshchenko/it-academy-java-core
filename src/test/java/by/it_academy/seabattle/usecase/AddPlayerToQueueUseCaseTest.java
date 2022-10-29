@@ -5,6 +5,7 @@ import by.it_academy.seabattle.usecase.exception.PlayerIsInQueue;
 import by.it_academy.seabattle.usecase.exception.PlayerWasNotFound;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class AddPlayerToQueueUseCaseTest extends SeaBattleTest {
@@ -27,6 +28,15 @@ class AddPlayerToQueueUseCaseTest extends SeaBattleTest {
         useCase.add(secondPlayerId);
 
         assertThatThrownBy(() -> useCase.add(firstPlayerId)).isInstanceOf(GameWithPlayerExists.class);
+    }
+
+    @Test
+    void givenGameWasOver_whenRegister_thenPlayerCanRegisterAgain() {
+        startBattle();
+        destroyAllEnemyShips();
+        AddPlayerToQueueUseCase useCase = seaBattle.addPlayerToQueueUseCase();
+
+        assertThatCode(() -> useCase.add(firstPlayerId)).doesNotThrowAnyException();
     }
 
     @Test

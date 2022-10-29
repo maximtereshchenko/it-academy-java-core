@@ -7,7 +7,6 @@ import by.it_academy.seabattle.usecase.exception.SquareIsNotValid;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -122,13 +121,6 @@ class ShootUseCaseTest extends SeaBattleTest {
         assertThat(boards.winner()).contains(firstPlayerId);
         assertThat(seaBattle.boardsQuery().currentGrids(secondPlayerId).opponentSquares())
                 .containsExactlyInAnyOrder(shipSegments());
-    }
-
-    private void destroyAllEnemyShips() {
-        ships()
-                .stream()
-                .flatMap(Collection::stream)
-                .forEach(square -> seaBattle.shootUseCase().shoot(firstPlayerId, square));
     }
 
     private GridsQuery.SquareView[] expectedSquareViews() {

@@ -27,7 +27,7 @@ public class SeaBattle {
         return queueService;
     }
 
-    public PositionShipUseCase placeShipUseCase() {
+    public PositionShipUseCase positionShipUseCase() {
         return gameService;
     }
 

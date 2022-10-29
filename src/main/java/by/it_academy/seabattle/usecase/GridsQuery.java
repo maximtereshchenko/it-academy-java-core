@@ -26,7 +26,7 @@ public interface GridsQuery {
             Set<SquareView> opponentSquares
     ) {
 
-        Optional<UUID> winner() {
+        public Optional<UUID> winner() {
             if (phase != Phase.OVER) {
                 return Optional.empty();
             }
