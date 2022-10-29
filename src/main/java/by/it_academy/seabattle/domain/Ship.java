@@ -1,30 +1,23 @@
 package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
-import by.it_academy.seabattle.usecase.BoardsQuery;
+import by.it_academy.seabattle.usecase.GridsQuery;
 
-import java.util.Collection;
 import java.util.Set;
 
 interface Ship {
 
-    Ship grow(Cell cell);
+    Ship hit(Square square);
 
-    boolean touches(Ship ship);
+    boolean positionedOn(Square square);
 
-    boolean placedOn(Cell cell);
+    boolean isSunk();
 
-    int size();
-
-    Collection<BoardsQuery.CellView> fullView();
+    int length();
 
     GameStates.Ship state();
 
-    Ship hit(Cell cell);
+    Set<Square> neighbourSquares();
 
-    Collection<BoardsQuery.CellView> hitsView();
-
-    boolean isDestroyed();
-
-    Set<Cell> cellsAround();
+    Set<GridsQuery.SquareView> view();
 }

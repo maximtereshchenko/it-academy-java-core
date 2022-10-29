@@ -1,15 +1,12 @@
 package by.it_academy.seabattle.usecase;
 
-import by.it_academy.seabattle.usecase.exception.GameWasNotFound;
-import by.it_academy.seabattle.usecase.exception.PlayerWasNotFound;
-
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-public interface BoardsQuery {
+public interface GridsQuery {
 
-    Boards getCurrentBoards(UUID playerId) throws PlayerWasNotFound, GameWasNotFound;
+    Grids currentGrids(UUID playerId);
 
     enum Status {
 
@@ -18,15 +15,15 @@ public interface BoardsQuery {
 
     enum Phase {
 
-        SHIP_PLACEMENT, BATTLE, OVER
+        SHIP_POSITIONING, BATTLE, OVER
     }
 
-    record Boards(
+    record Grids(
             Phase phase,
             UUID turnOwnerId,
             UUID otherPlayerId,
-            Set<CellView> ownedCells,
-            Set<CellView> opponentCells
+            Set<SquareView> ownedSquares,
+            Set<SquareView> opponentSquares
     ) {
 
         Optional<UUID> winner() {
@@ -37,6 +34,5 @@ public interface BoardsQuery {
         }
     }
 
-    record CellView(char row, int column, Status status) {
-    }
+    record SquareView(char column, int row, Status status) {}
 }

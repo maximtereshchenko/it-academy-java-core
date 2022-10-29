@@ -6,12 +6,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class InMemoryPlayerStates implements PlayerIds {
+public final class InMemoryPlayerIds implements PlayerIds {
 
     private final Set<UUID> set = new HashSet<>();
 
     @Override
-    public boolean exists(UUID id) {
+    public boolean has(UUID id) {
         return set.contains(id);
     }
 

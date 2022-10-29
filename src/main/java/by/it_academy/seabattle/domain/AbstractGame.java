@@ -1,71 +1,23 @@
 package by.it_academy.seabattle.domain;
 
-import by.it_academy.seabattle.port.GameStates;
-import by.it_academy.seabattle.usecase.BoardsQuery;
-
-import java.util.Objects;
-import java.util.UUID;
-import java.util.function.Predicate;
+import by.it_academy.seabattle.usecase.exception.UnexpectedException;
 
 abstract class AbstractGame implements Game {
 
-    private final UUID id;
-
-    AbstractGame(UUID id) {
-        this.id = id;
-    }
-
-    @Override
-    public UUID id() {
-        return id;
-    }
-
-    GameStates.State state(Board firstBoard, Board secondBoard, GameStates.Phase phase) {
-        return new GameStates.State(
-                id,
-                phase,
-                firstBoard.ownerId(),
-                secondBoard.ownerId(),
-                firstBoard.state(),
-                secondBoard.state()
-        );
-    }
-
-    BoardsQuery.Boards view(Player player, Board firstBoard, Board secondBoard, BoardsQuery.Phase phase) {
-        return new BoardsQuery.Boards(
-                phase,
-                firstBoard.ownerId(),
-                secondBoard.ownerId(),
-                boardByCondition(firstBoard, secondBoard, boardOwnerPredicate(player)).view(player),
-                boardByCondition(firstBoard, secondBoard, boardOwnerPredicate(player).negate()).view(player)
-        );
-    }
-
-    Board boardByCondition(Board firstBoard, Board secondBoard, Predicate<UUID> predicate) {
-        if (predicate.test(firstBoard.ownerId())) {
-            return firstBoard;
+    <T extends Grid> T ownedGrid(Player player, T firstGrid, T secondGrid) {
+        if (firstGrid.isOwnedBy(player)) {
+            return firstGrid;
         }
-        return secondBoard;
-    }
-
-    Predicate<UUID> boardOwnerPredicate(Player player) {
-        return ownerId -> player.id().equals(ownerId);
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
+        if (secondGrid.isOwnedBy(player)) {
+            return secondGrid;
         }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        var that = (AbstractGame) object;
-        return Objects.equals(id, that.id);
+        throw new UnexpectedException("Player do not belong to game");
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    <T extends Grid> T otherPlayerGrid(Player player, T firstGrid, T secondGrid) {
+        if (firstGrid.isOwnedBy(player)) {
+            return secondGrid;
+        }
+        return firstGrid;
     }
 }

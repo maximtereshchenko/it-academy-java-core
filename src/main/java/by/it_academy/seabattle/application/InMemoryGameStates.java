@@ -7,20 +7,37 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public class InMemoryGameStates implements GameStates {
+public final class InMemoryGameStates implements GameStates {
 
-    private final Map<UUID, State> states = new HashMap<>();
+    private final Map<UUID, State> map = new HashMap<>();
+
+    @Override
+    public Optional<State> findByPlayerIdAndPhase(UUID playerId, Phase phase) {
+        return findByPlayerId(playerId)
+                .filter(state -> state.phase() == phase);
+    }
 
     @Override
     public Optional<State> findByPlayerId(UUID playerId) {
-        return states.values()
+        return map.values()
                 .stream()
-                .filter(state -> state.nextTurnOwnerId().equals(playerId) || state.otherPlayerId().equals(playerId))
+                .filter(state -> hasPlayer(playerId, state))
                 .findAny();
     }
 
     @Override
+    public boolean existsByPlayerId(UUID playerId) {
+        return map.values()
+                .stream()
+                .anyMatch(state -> hasPlayer(playerId, state));
+    }
+
+    @Override
     public void save(State state) {
-        states.put(state.id(), state);
+        map.put(state.id(), state);
+    }
+
+    private boolean hasPlayer(UUID playerId, State state) {
+        return state.turnOwnerGrid().playerId().equals(playerId) || state.otherPlayerGrid().playerId().equals(playerId);
     }
 }

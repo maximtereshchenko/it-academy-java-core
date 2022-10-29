@@ -1,4 +1,3 @@
 package by.it_academy.seabattle.usecase.exception;
 
-public class GameWasNotFound extends RuntimeException {
-}
+public final class GameWasNotFound extends RuntimeException {}

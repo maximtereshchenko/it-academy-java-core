@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public interface PlayerIds {
 
-    boolean exists(UUID id);
+    boolean has(UUID id);
 
     void save(UUID id);
 }

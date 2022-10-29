@@ -1,4 +1,3 @@
 package by.it_academy.seabattle.usecase.exception;
 
-public class DuplicatePlayerId extends RuntimeException {
-}
+public final class DuplicatePlayerId extends RuntimeException {}

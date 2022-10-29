@@ -1,11 +1,11 @@
 package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.PlayerIds;
+import by.it_academy.seabattle.usecase.exception.PlayerWasNotFound;
 
-import java.util.Optional;
 import java.util.UUID;
 
-class Players {
+final class Players {
 
     private final PlayerIds playerIds;
 
@@ -13,11 +13,15 @@ class Players {
         this.playerIds = playerIds;
     }
 
-    Optional<Player> findById(UUID id) {
-        if (playerIds.exists(id)) {
-            return Optional.of(new Player(id));
+    Player findPlayer(UUID playerId) {
+        if (!playerIds.has(playerId)) {
+            throw new PlayerWasNotFound();
         }
-        return Optional.empty();
+        return new Player(playerId);
+    }
+
+    boolean exists(Player player) {
+        return playerIds.has(player.id());
     }
 
     void save(Player player) {

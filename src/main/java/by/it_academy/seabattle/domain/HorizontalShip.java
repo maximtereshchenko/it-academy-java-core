@@ -1,40 +1,23 @@
 package by.it_academy.seabattle.domain;
 
-import by.it_academy.seabattle.usecase.exception.ShipIsNotValid;
+import by.it_academy.seabattle.usecase.exception.SquareIsNotValid;
 
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-final class HorizontalShip extends MultipleSegmentsShip {
+final class HorizontalShip extends MultipleSquaresShip {
 
-    private HorizontalShip(Set<Cell> segments) {
-        super(segments);
-    }
-
-    static Ship of(Cell cell1, Cell cell2) {
-        if (!(Cell.Relation.RIGHT.between(cell1, cell2) || Cell.Relation.LEFT.between(cell1, cell2))) {
-            throw new ShipIsNotValid();
-        }
-        return new HorizontalShip(Set.of(cell1, cell2));
+    HorizontalShip(Set<Square> squares) {
+        super(squares);
     }
 
     @Override
-    public Ship grow(Cell cell) {
-        ensureSizeIsNotMaximum();
-        if (!(rightRelated(cell) || leftRelated(cell))) {
-            throw new ShipIsNotValid();
+    IntactShip growAfterGuard(Square square) {
+        if (!squares().first().connectedHorizontally(square) && !squares().last().connectedHorizontally(square)) {
+            throw new SquareIsNotValid();
         }
-        Set<Cell> copy = new HashSet<>(cells());
-        copy.add(cell);
+        Set<Square> copy = new HashSet<>(squares());
+        copy.add(square);
         return new HorizontalShip(copy);
-    }
-
-    private boolean rightRelated(Cell cell) {
-        return isRelated(cell, Comparator.comparingInt(Cell::column), Cell.Relation.RIGHT);
-    }
-
-    private boolean leftRelated(Cell cell) {
-        return isRelated(cell, Comparator.comparingInt(Cell::column).reversed(), Cell.Relation.LEFT);
     }
 }

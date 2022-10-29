@@ -10,10 +10,10 @@ public class SeaBattle {
     private final QueueService queueService;
     private final GameService gameService;
 
-    public SeaBattle(PlayerIds playerStates, GameStates gameStates) {
+    public SeaBattle(PlayerIds playerIds, GameStates gameStates) {
+        Players players = new Players(playerIds);
         ShipFactory shipFactory = new ShipFactory();
         Games games = new Games(gameStates, shipFactory);
-        Players players = new Players(playerStates);
         playerService = new PlayerService(players);
         queueService = new QueueService(players, games, new Queue(games));
         gameService = new GameService(players, games, shipFactory);
@@ -27,11 +27,11 @@ public class SeaBattle {
         return queueService;
     }
 
-    public PlaceShipUseCase placeShipUseCase() {
+    public PositionShipUseCase placeShipUseCase() {
         return gameService;
     }
 
-    public BoardsQuery boardsQuery() {
+    public GridsQuery boardsQuery() {
         return gameService;
     }
 
@@ -39,7 +39,7 @@ public class SeaBattle {
         return gameService;
     }
 
-    public FillBoardWithRandomShipsUseCase fillBoardWithRandomShipsUseCase() {
+    public FillGridWithRandomShipsUseCase fillGridWithRandomShipsUseCase() {
         return gameService;
     }
 }

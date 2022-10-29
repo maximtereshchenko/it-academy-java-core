@@ -6,31 +6,29 @@ import java.util.UUID;
 
 public interface GameStates {
 
+    Optional<State> findByPlayerIdAndPhase(UUID playerId, Phase phase);
+
     Optional<State> findByPlayerId(UUID playerId);
+
+    boolean existsByPlayerId(UUID playerId);
 
     void save(State state);
 
     enum Phase {
 
-        SHIP_PLACEMENT, BATTLE, OVER
+        SHIP_POSITIONING, BATTLE, OVER
     }
 
     record State(
             UUID id,
             Phase phase,
-            UUID nextTurnOwnerId,
-            UUID otherPlayerId,
-            Board nextTurnOwnerBoard,
-            Board otherPlayerBoard
-    ) {
-    }
+            Grid turnOwnerGrid,
+            Grid otherPlayerGrid
+    ) {}
 
-    record Board(Set<Ship> ships, Set<Cell> otherCells) {
-    }
+    record Grid(UUID playerId, Set<Ship> ships, Set<Square> checkedSquares) {}
 
-    record Ship(Set<Cell> intactCells, Set<Cell> destroyedCells) {
-    }
+    record Ship(Set<Square> intactSquares, Set<Square> destroyedSquares) {}
 
-    record Cell(char row, int column) {
-    }
+    record Square(char column, int row) {}
 }

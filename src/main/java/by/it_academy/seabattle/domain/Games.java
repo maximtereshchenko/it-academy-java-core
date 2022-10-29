@@ -1,12 +1,13 @@
 package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
+import by.it_academy.seabattle.usecase.exception.GameWasNotFound;
+import by.it_academy.seabattle.usecase.exception.UnexpectedException;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
-class Games {
+final class Games {
 
     private final GameStates gameStates;
     private final ShipFactory shipFactory;
@@ -16,9 +17,10 @@ class Games {
         this.shipFactory = shipFactory;
     }
 
-    Optional<Game> findByPlayer(Player player) {
-        return gameStates.findByPlayerId(player.id())
-                .map(this::game);
+    ShipPositioningPhase findGameInShipPositioningPhaseByPlayer(Player player) {
+        return gameStates.findByPlayerIdAndPhase(player.id(), GameStates.Phase.SHIP_POSITIONING)
+                .map(this::shipPositioningPhase)
+                .orElseThrow(GameWasNotFound::new);
     }
 
     void save(Game game) {
@@ -26,54 +28,89 @@ class Games {
     }
 
     boolean hasGameWith(Player player) {
-        return gameStates.findByPlayerId(player.id()).isPresent();
+        return gameStates.existsByPlayerId(player.id());
+    }
+
+    Game findGameByPlayer(Player player) {
+        return gameStates.findByPlayerId(player.id())
+                .map(this::game)
+                .orElseThrow(GameWasNotFound::new);
+    }
+
+    BattlePhase findGameInBattlePhaseByPlayer(Player player) {
+        return gameStates.findByPlayerIdAndPhase(player.id(), GameStates.Phase.BATTLE)
+                .map(this::battlePhase)
+                .orElseThrow(GameWasNotFound::new);
     }
 
     private Game game(GameStates.State state) {
         switch (state.phase()) {
-            case SHIP_PLACEMENT:
-                return shipPlacement(state);
+            case SHIP_POSITIONING:
+                return shipPositioningPhase(state);
             case BATTLE:
-                return battle(state);
+                return battlePhase(state);
             case OVER:
-                return gameOver(state);
+                return gameOverPhase(state);
             default:
-                return null;
+                throw new UnexpectedException("Unknown phase: " + state.phase());
         }
     }
 
-    private Game battle(GameStates.State state) {
-        return new Battle(
+    private GameOverPhase gameOverPhase(GameStates.State state) {
+        return new GameOverPhase(
                 state.id(),
-                board(state.nextTurnOwnerId(), state.nextTurnOwnerBoard()),
-                board(state.otherPlayerId(), state.otherPlayerBoard())
+                battleGrid(state.turnOwnerGrid()).reveal(),
+                battleGrid(state.otherPlayerGrid()).reveal()
         );
     }
 
-    private Game shipPlacement(GameStates.State state) {
-        return new ShipPlacement(
+    private BattlePhase battlePhase(GameStates.State state) {
+        return new BattlePhase(
                 state.id(),
-                board(state.nextTurnOwnerId(), state.nextTurnOwnerBoard()),
-                board(state.otherPlayerId(), state.otherPlayerBoard())
+                battleGrid(state.turnOwnerGrid()),
+                battleGrid(state.otherPlayerGrid())
         );
     }
 
-    private Game gameOver(GameStates.State state) {
-        return new GameOver(
-                state.id(),
-                board(state.nextTurnOwnerId(), state.nextTurnOwnerBoard()),
-                board(state.otherPlayerId(), state.otherPlayerBoard())
-        );
-    }
-
-    private Board board(UUID id, GameStates.Board board) {
-        return new Board(
-                id,
-                shipFactory.ships(board.ships()),
-                board.otherCells()
+    private BattleGrid battleGrid(GameStates.Grid grid) {
+        SomeShipsFloat battleGrid = new SomeShipsFloat(
+                grid.playerId(),
+                grid.ships()
                         .stream()
-                        .map(cell -> new Cell(cell.row(), cell.column()))
+                        .map(shipFactory::ship)
+                        .collect(Collectors.toSet()),
+                grid.checkedSquares()
+                        .stream()
+                        .map(square -> Square.of(square.column(), square.row()))
                         .collect(Collectors.toSet())
         );
+        if (allShipSegmentsDestroyed(grid)) {
+            return new AllShipsSunk(battleGrid);
+        }
+        return battleGrid;
+    }
+
+    private boolean allShipSegmentsDestroyed(GameStates.Grid grid) {
+        return grid.ships()
+                .stream()
+                .map(GameStates.Ship::destroyedSquares)
+                .mapToLong(Collection::size)
+                .sum() == 20;
+    }
+
+    private ShipPositioningPhase shipPositioningPhase(GameStates.State state) {
+        return new ShipPositioningPhase(
+                state.id(),
+                shipPositioningGrid(state.turnOwnerGrid()),
+                shipPositioningGrid(state.otherPlayerGrid())
+        );
+    }
+
+    private ShipPositioningGrid shipPositioningGrid(GameStates.Grid grid) {
+        ShipPositioningGrid identity = new IncompleteGrid(grid.playerId());
+        return grid.ships()
+                .stream()
+                .map(shipFactory::intactShip)
+                .reduce(identity, ShipPositioningGrid::position, (first, second) -> first);
     }
 }

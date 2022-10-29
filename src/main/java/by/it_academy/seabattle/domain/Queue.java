@@ -25,7 +25,7 @@ class Queue {
         Iterator<Player> iterator = players.iterator();
         Player firstPlayer = iterator.next();
         Player secondPlayer = iterator.next();
-        games.save(new ShipPlacement(firstPlayer, secondPlayer));
+        games.save(new ShipPositioningPhase(firstPlayer, secondPlayer));
         players.remove(firstPlayer);
         players.remove(secondPlayer);
     }

@@ -14,10 +14,11 @@ class PlayerService implements RegisterNewPlayerUseCase {
     }
 
     @Override
-    public void register(UUID playerId) throws DuplicatePlayerId {
-        if (players.findById(playerId).isPresent()) {
+    public void register(UUID playerId) {
+        Player player = new Player(playerId);
+        if (players.exists(player)) {
             throw new DuplicatePlayerId();
         }
-        players.save(new Player(playerId));
+        players.save(player);
     }
 }

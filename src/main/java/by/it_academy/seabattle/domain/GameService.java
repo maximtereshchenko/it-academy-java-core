@@ -1,16 +1,14 @@
 package by.it_academy.seabattle.domain;
 
-import by.it_academy.seabattle.usecase.BoardsQuery;
-import by.it_academy.seabattle.usecase.FillBoardWithRandomShipsUseCase;
-import by.it_academy.seabattle.usecase.PlaceShipUseCase;
+import by.it_academy.seabattle.usecase.FillGridWithRandomShipsUseCase;
+import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.PositionShipUseCase;
 import by.it_academy.seabattle.usecase.ShootUseCase;
-import by.it_academy.seabattle.usecase.exception.GameWasNotFound;
-import by.it_academy.seabattle.usecase.exception.PlayerWasNotFound;
 
 import java.util.Collection;
 import java.util.UUID;
 
-class GameService implements PlaceShipUseCase, BoardsQuery, ShootUseCase, FillBoardWithRandomShipsUseCase {
+final class GameService implements PositionShipUseCase, GridsQuery, FillGridWithRandomShipsUseCase, ShootUseCase {
 
     private final Players players;
     private final Games games;
@@ -23,34 +21,28 @@ class GameService implements PlaceShipUseCase, BoardsQuery, ShootUseCase, FillBo
     }
 
     @Override
-    public void place(UUID playerId, Collection<String> shipCoordinates) {
-        Player player = players.findById(playerId).orElseThrow(PlayerWasNotFound::new);
+    public void position(UUID playerId, Collection<String> shipCoordinates) {
+        Player player = players.findPlayer(playerId);
         games.save(
-                games.findByPlayer(player)
-                        .orElseThrow(GameWasNotFound::new)
-                        .placeShip(player, shipFactory.ship(shipCoordinates))
+                games.findGameInShipPositioningPhaseByPlayer(player)
+                        .position(player, shipFactory.intactShip(shipCoordinates))
         );
     }
 
     @Override
-    public BoardsQuery.Boards getCurrentBoards(UUID playerId) {
-        Player player = players.findById(playerId).orElseThrow(PlayerWasNotFound::new);
-        return games.findByPlayer(player)
-                .orElseThrow(GameWasNotFound::new)
-                .view(player);
+    public Grids currentGrids(UUID playerId) {
+        return games.findGameByPlayer(players.findPlayer(playerId)).view(players.findPlayer(playerId));
+    }
+
+    @Override
+    public void fill(UUID playerId) {
+        Player player = players.findPlayer(playerId);
+        games.save(games.findGameInShipPositioningPhaseByPlayer(player).fill(player, shipFactory));
     }
 
     @Override
     public void shoot(UUID playerId, String coordinates) {
-        Player player = players.findById(playerId).orElseThrow(PlayerWasNotFound::new);
-        games.save(
-                games.findByPlayer(player).orElseThrow(GameWasNotFound::new)
-                        .shoot(player, Cell.of(coordinates))
-        );
-    }
-
-    @Override
-    public void fill(UUID playerId) throws PlayerWasNotFound, GameWasNotFound {
-
+        Player player = players.findPlayer(playerId);
+        games.save(games.findGameInBattlePhaseByPlayer(player).shoot(player, Square.of(coordinates)));
     }
 }
