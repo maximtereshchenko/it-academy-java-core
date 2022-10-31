@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 import by.it_academy.seabattle.usecase.exception.ShipWasSunk;
 
 import java.util.Collection;
@@ -68,5 +69,14 @@ final class SunkenShip implements Ship {
                         )
                 )
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public SquareQuery.Status square(Square square) {
+        SquareQuery.Status status = original.square(square);
+        if (status == SquareQuery.Status.SHIP_SEGMENT) {
+            return SquareQuery.Status.DESTROYED_SHIP_SEGMENT;
+        }
+        return status;
     }
 }

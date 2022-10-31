@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 import by.it_academy.seabattle.usecase.exception.ShipIsNotValid;
 
 import java.util.Set;
@@ -56,6 +57,14 @@ final class OneSquareShip extends AbstractShip implements IntactShip {
     @Override
     public Set<GridsQuery.SquareView> view() {
         return Set.of(square.view(GridsQuery.Status.SHIP_SEGMENT));
+    }
+
+    @Override
+    public SquareQuery.Status square(Square square) {
+        if (this.square.equals(square)) {
+            return SquareQuery.Status.SHIP_SEGMENT;
+        }
+        return SquareQuery.Status.UNKNOWN;
     }
 
     @Override

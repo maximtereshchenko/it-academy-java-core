@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 import by.it_academy.seabattle.usecase.exception.GridIsComplete;
 import by.it_academy.seabattle.usecase.exception.ShipIsNotValid;
 
@@ -73,6 +74,11 @@ final class ShipPositioningPhase extends AbstractGame {
     @Override
     public boolean hasNotAllShips() {
         return !firstPlayerGrid.isComplete() || !secondPlayerGrid.isComplete();
+    }
+
+    @Override
+    public SquareQuery.Status square(Player player, Square square) {
+        return SquareQuery.Status.UNKNOWN;
     }
 
     Game position(Player player, IntactShip ship) {

@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 import by.it_academy.seabattle.usecase.exception.SquareIsNotValid;
 
 import java.util.*;
@@ -61,6 +62,15 @@ final class SomeShipsFloat extends AbstractGrid implements BattleGrid {
                 )
                 .filter(squareView -> isOwnedBy(player) || squareView.status() != GridsQuery.Status.SHIP_SEGMENT)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public SquareQuery.Status square(Square square) {
+        SquareQuery.Status status = square(ships, checked, square);
+        if (status == SquareQuery.Status.SHIP_SEGMENT || status == SquareQuery.Status.EMPTY) {
+            return SquareQuery.Status.UNKNOWN;
+        }
+        return status;
     }
 
     private BattleGrid withCheckedSquare(Square square) {

@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 import by.it_academy.seabattle.usecase.exception.SquareIsNotValid;
 
 import java.util.HashSet;
@@ -63,6 +64,14 @@ final class WoundedShip extends AbstractShip {
                                 .map(square -> square.view(GridsQuery.Status.DESTROYED_SHIP_SEGMENT))
                 )
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public SquareQuery.Status square(Square square) {
+        if (hits.contains(square)) {
+            return SquareQuery.Status.DESTROYED_SHIP_SEGMENT;
+        }
+        return original.square(square);
     }
 
     @Override

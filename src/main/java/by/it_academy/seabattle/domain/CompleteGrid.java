@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 import by.it_academy.seabattle.usecase.exception.ShipIsNotValid;
 
 import java.util.Set;
@@ -33,6 +34,11 @@ final class CompleteGrid implements ShipPositioningGrid {
     @Override
     public Set<GridsQuery.SquareView> view(Player player) {
         return original.view(player);
+    }
+
+    @Override
+    public SquareQuery.Status square(Square square) {
+        return original.square(square);
     }
 
     @Override

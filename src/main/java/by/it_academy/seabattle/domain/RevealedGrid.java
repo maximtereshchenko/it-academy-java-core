@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 
 import java.util.Set;
 import java.util.UUID;
@@ -25,5 +26,10 @@ final class RevealedGrid extends AbstractGrid {
     @Override
     public Set<GridsQuery.SquareView> view(Player player) {
         return view(ships, checked, squareView -> true);
+    }
+
+    @Override
+    public SquareQuery.Status square(Square square) {
+        return square(ships, checked, square);
     }
 }

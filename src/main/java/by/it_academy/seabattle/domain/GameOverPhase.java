@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -56,5 +57,10 @@ final class GameOverPhase extends AbstractGame {
     @Override
     public boolean hasNotAllShips() {
         return false;
+    }
+
+    @Override
+    public SquareQuery.Status square(Player player, Square square) {
+        return otherPlayerGrid(player, winnerGrid, loserGrid).square(square);
     }
 }

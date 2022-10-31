@@ -2,8 +2,10 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -58,5 +60,24 @@ abstract class AbstractGrid implements Grid {
                 )
                 .filter(predicate)
                 .collect(Collectors.toSet());
+    }
+
+
+    SquareQuery.Status square(Set<Ship> ships, Set<Square> checked, Square square) {
+        return shipSquareStatus(ships, square).orElseGet(() -> checkedSquareStatus(checked, square));
+    }
+
+    private SquareQuery.Status checkedSquareStatus(Set<Square> checked, Square square) {
+        if (checked.contains(square)) {
+            return SquareQuery.Status.CHECKED;
+        }
+        return SquareQuery.Status.EMPTY;
+    }
+
+    private Optional<SquareQuery.Status> shipSquareStatus(Set<Ship> ships, Square square) {
+        return ships.stream()
+                .filter(ship -> ship.positionedOn(square))
+                .findAny()
+                .map(ship -> ship.square(square));
     }
 }

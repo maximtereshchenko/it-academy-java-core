@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 import by.it_academy.seabattle.usecase.exception.ShipIsNotValid;
 import by.it_academy.seabattle.usecase.exception.UnexpectedException;
 
@@ -68,6 +69,11 @@ final class IncompleteGrid extends AbstractGrid implements ShipPositioningGrid {
                 .map(Ship::view)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public SquareQuery.Status square(Square square) {
+        return SquareQuery.Status.UNKNOWN;
     }
 
     Set<IntactShip> ships() {

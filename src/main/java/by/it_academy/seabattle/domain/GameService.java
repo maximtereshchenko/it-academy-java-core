@@ -1,14 +1,12 @@
 package by.it_academy.seabattle.domain;
 
-import by.it_academy.seabattle.usecase.FillGridWithRandomShipsUseCase;
-import by.it_academy.seabattle.usecase.GridsQuery;
-import by.it_academy.seabattle.usecase.PositionShipUseCase;
-import by.it_academy.seabattle.usecase.ShootUseCase;
+import by.it_academy.seabattle.usecase.*;
 
 import java.util.Collection;
 import java.util.UUID;
 
-final class GameService implements PositionShipUseCase, GridsQuery, FillGridWithRandomShipsUseCase, ShootUseCase {
+final class GameService
+        implements PositionShipUseCase, GridsQuery, FillGridWithRandomShipsUseCase, ShootUseCase, SquareQuery {
 
     private final Players players;
     private final Games games;
@@ -44,5 +42,11 @@ final class GameService implements PositionShipUseCase, GridsQuery, FillGridWith
     public void shoot(UUID playerId, String coordinates) {
         Player player = players.findPlayer(playerId);
         games.save(games.findGameInBattlePhaseByPlayer(player).shoot(player, Square.of(coordinates)));
+    }
+
+    @Override
+    public SquareQuery.Status square(UUID playerId, String coordinates) {
+        Player player = players.findPlayer(playerId);
+        return games.findGameByPlayer(player).square(player, Square.of(coordinates));
     }
 }

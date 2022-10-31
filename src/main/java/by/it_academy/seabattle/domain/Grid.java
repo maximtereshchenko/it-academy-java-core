@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 
 import java.util.Set;
 import java.util.UUID;
@@ -15,4 +16,6 @@ interface Grid {
     GameStates.Grid state();
 
     Set<GridsQuery.SquareView> view(Player player);
+
+    SquareQuery.Status square(Square square);
 }

@@ -2,6 +2,7 @@ package by.it_academy.seabattle.domain;
 
 import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.GridsQuery;
+import by.it_academy.seabattle.usecase.SquareQuery;
 import by.it_academy.seabattle.usecase.exception.NotYourTurn;
 
 import java.time.Instant;
@@ -62,6 +63,11 @@ final class BattlePhase extends AbstractGame {
     @Override
     public boolean hasNotAllShips() {
         return false;
+    }
+
+    @Override
+    public SquareQuery.Status square(Player player, Square square) {
+        return otherPlayerGrid(player, turnOwnerGrid, otherPlayerGrid).square(square);
     }
 
     Game shoot(Player player, Square square) {

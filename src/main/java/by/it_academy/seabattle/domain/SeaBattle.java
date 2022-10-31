@@ -66,4 +66,8 @@ public class SeaBattle {
     public AddAllShipsPositionedObserverUseCase addAllShipsPositionedObserverUseCase() {
         return allShipsPositionedObservable;
     }
+
+    public SquareQuery squareQuery() {
+        return gameService;
+    }
 }
