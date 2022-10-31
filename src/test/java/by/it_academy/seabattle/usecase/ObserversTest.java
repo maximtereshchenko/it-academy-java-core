@@ -36,10 +36,35 @@ final class ObserversTest extends SeaBattleTest {
         GameOverObserver observer = new GameOverObserver();
         seaBattle.addGameOverObserverUseCase().add(observer);
         startBattle();
+
         destroyAllEnemyShips();
 
         assertThat(observer.winnerId).isEqualTo(firstPlayerId);
         assertThat(observer.loserId).isEqualTo(secondPlayerId);
+    }
+
+    @Test
+    void givenAllShipsPositionedObserverAdded_whenAllShipsPositionedManually_thenObserverNotified() {
+        AllShipsPositionedObserver observer = new AllShipsPositionedObserver();
+        seaBattle.addAllShipsPositionedObserverUseCase().add(observer);
+
+        startBattle();
+
+        assertThat(observer.firstPlayerWithAllShipsId).isEqualTo(firstPlayerId);
+        assertThat(observer.secondPlayerWithAllShipsId).isEqualTo(secondPlayerId);
+    }
+
+    @Test
+    void givenAllShipsPositionedObserverAdded_whenFillGrid_thenObserverNotified() {
+        AllShipsPositionedObserver observer = new AllShipsPositionedObserver();
+        seaBattle.addAllShipsPositionedObserverUseCase().add(observer);
+        startGame();
+
+        seaBattle.fillGridWithRandomShipsUseCase().fill(firstPlayerId);
+        seaBattle.fillGridWithRandomShipsUseCase().fill(secondPlayerId);
+
+        assertThat(observer.firstPlayerWithAllShipsId).isEqualTo(firstPlayerId);
+        assertThat(observer.secondPlayerWithAllShipsId).isEqualTo(secondPlayerId);
     }
 
     private static final class GameStartedObserver implements AddGameStartedObserverUseCase.Observer {
@@ -77,6 +102,18 @@ final class ObserversTest extends SeaBattleTest {
         public void onGameOver(UUID winnerId, UUID loserId) {
             this.winnerId = winnerId;
             this.loserId = loserId;
+        }
+    }
+
+    private static final class AllShipsPositionedObserver implements AddAllShipsPositionedObserverUseCase.Observer {
+
+        private UUID firstPlayerWithAllShipsId;
+        private UUID secondPlayerWithAllShipsId;
+
+        @Override
+        public void onAllShipsPositioned(UUID firstPlayerId, UUID secondPlayerId) {
+            firstPlayerWithAllShipsId = firstPlayerId;
+            secondPlayerWithAllShipsId = secondPlayerId;
         }
     }
 }

@@ -18,6 +18,7 @@ final class ConsoleInterface implements Runnable {
         seaBattle.addGameStartedObserverUseCase().add(this::onGameStarted);
         seaBattle.addPlayerShotObserverUseCase().add(this::onShot);
         seaBattle.addGameOverObserverUseCase().add(this::onGameOver);
+        seaBattle.addAllShipsPositionedObserverUseCase().add(this::onAllShipsPositioned);
     }
 
     @Override
@@ -31,6 +32,13 @@ final class ConsoleInterface implements Runnable {
             }
             System.out.println(result);
         }
+    }
+
+    private void onAllShipsPositioned(UUID firstPlayerId, UUID secondPlayerId) {
+        if (!firstPlayerId.equals(playerId) && !secondPlayerId.equals(playerId)) {
+            return;
+        }
+        System.out.println("All ships positioned!");
     }
 
     private void onGameStarted(UUID firstPlayerId, UUID secondPlayerId) {

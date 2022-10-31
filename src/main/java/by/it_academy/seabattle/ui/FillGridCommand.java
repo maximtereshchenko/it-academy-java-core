@@ -1,6 +1,7 @@
 package by.it_academy.seabattle.ui;
 
 import by.it_academy.seabattle.usecase.FillGridWithRandomShipsUseCase;
+import by.it_academy.seabattle.usecase.exception.GameWasNotFound;
 import by.it_academy.seabattle.usecase.exception.GridIsComplete;
 
 import java.util.List;
@@ -29,6 +30,8 @@ public final class FillGridCommand implements Command {
         try {
             useCase.fill(playerId);
             return "Ships positioned";
+        } catch (GameWasNotFound e) {
+            return "Game was not found";
         } catch (GridIsComplete e) {
             return "Grid is complete";
         }

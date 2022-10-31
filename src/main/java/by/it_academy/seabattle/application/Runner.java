@@ -15,25 +15,32 @@ final class Runner {
 
     public static void main(String[] args) throws TelegramApiException {
         SeaBattle seaBattle = new SeaBattle(new InMemoryPlayerIds(), new InMemoryGameStates());
-        List<Command> mainCommands = List.of(
+        GridsCommand gridsCommand = new GridsCommand(seaBattle.boardsQuery());
+        new TelegramBotsApi(DefaultBotSession.class)
+                .registerBot(
+                        new SeaBattleTelegramBot(
+                                new InMemoryChats(),
+                                new TextInterface(commands(seaBattle, new UseMonospaceFont(gridsCommand))),
+                                seaBattle
+                        )
+                );
+        Executors.newSingleThreadExecutor()
+                .execute(new ConsoleInterface(new TextInterface(commands(seaBattle, gridsCommand)), seaBattle));
+    }
+
+    private static Collection<Command> commands(SeaBattle seaBattle, Command gridsCommand) {
+        Collection<Command> mainCommands = concat(mainCommands(seaBattle), gridsCommand);
+        return concat(mainCommands, new HelpCommand(mainCommands));
+    }
+
+    private static Collection<Command> mainCommands(SeaBattle seaBattle) {
+        return List.of(
                 new FillGridCommand(seaBattle.fillGridWithRandomShipsUseCase()),
-                new GridsCommand(seaBattle.boardsQuery()),
                 new PositionCommand(seaBattle.positionShipUseCase()),
                 new QueueCommand(seaBattle.addPlayerToQueueUseCase()),
                 new RegisterCommand(seaBattle.registerNewPlayerUseCase()),
                 new ShootCommand(seaBattle.shootUseCase())
         );
-        TextInterface textInterface = new TextInterface(concat(mainCommands, new HelpCommand(mainCommands)));
-        new TelegramBotsApi(DefaultBotSession.class)
-                .registerBot(
-                        new SeaBattleTelegramBot(
-                                new InMemoryChats(),
-                                textInterface,
-                                seaBattle
-                        )
-                );
-        Executors.newSingleThreadExecutor()
-                .execute(new ConsoleInterface(textInterface, seaBattle));
     }
 
     private static List<Command> concat(Collection<Command> commands, Command other) {

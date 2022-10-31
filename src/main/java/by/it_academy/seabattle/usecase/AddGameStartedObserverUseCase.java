@@ -6,6 +6,7 @@ public interface AddGameStartedObserverUseCase {
 
     void add(Observer observer);
 
+    @FunctionalInterface
     interface Observer {
 
         void onGameStarted(UUID firstPlayerId, UUID secondPlayerId);

@@ -6,6 +6,7 @@ public interface AddPlayerShotObserverUseCase {
 
     void add(Observer observer);
 
+    @FunctionalInterface
     interface Observer {
 
         void onShot(UUID shotOwnerId, UUID targetGridOwnerId, String coordinates);

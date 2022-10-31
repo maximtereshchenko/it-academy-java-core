@@ -9,9 +9,9 @@ public class SeaBattle {
     private final PlayerService playerService;
     private final QueueService queueService;
     private final GameService gameService;
-    private final AddPlayerShotObserverUseCase addPlayerShotObserverUseCase;
-    private final AddGameOverObserverUseCase addGameOverObserverUseCase;
-    private final ShootUseCase shootUseCase;
+    private final PlayerShotObservable playerShotObservable;
+    private final GameOverObservable gameOverObservable;
+    private final AllShipsPositionedObservable allShipsPositionedObservable;
 
     public SeaBattle(PlayerIds playerIds, GameStates gameStates) {
         Players players = new Players(playerIds);
@@ -20,11 +20,9 @@ public class SeaBattle {
         playerService = new PlayerService(players);
         queueService = new QueueService(players, games, new Queue(games));
         gameService = new GameService(players, games, shipFactory);
-        PlayerShotObservable playerShotObservable = new PlayerShotObservable(gameService, players, games);
-        GameOverObservable gameOverObservable = new GameOverObservable(playerShotObservable, players, games);
-        addPlayerShotObserverUseCase = playerShotObservable;
-        addGameOverObserverUseCase = gameOverObservable;
-        shootUseCase = gameOverObservable;
+        playerShotObservable = new PlayerShotObservable(gameService, players, games);
+        gameOverObservable = new GameOverObservable(playerShotObservable, players, games);
+        allShipsPositionedObservable = new AllShipsPositionedObservable(gameService, gameService, players, games);
     }
 
     public RegisterNewPlayerUseCase registerNewPlayerUseCase() {
@@ -36,7 +34,7 @@ public class SeaBattle {
     }
 
     public PositionShipUseCase positionShipUseCase() {
-        return gameService;
+        return allShipsPositionedObservable;
     }
 
     public GridsQuery boardsQuery() {
@@ -44,11 +42,11 @@ public class SeaBattle {
     }
 
     public ShootUseCase shootUseCase() {
-        return shootUseCase;
+        return gameOverObservable;
     }
 
     public FillGridWithRandomShipsUseCase fillGridWithRandomShipsUseCase() {
-        return gameService;
+        return allShipsPositionedObservable;
     }
 
     public AddGameStartedObserverUseCase addGameStartedObserverUseCase() {
@@ -56,10 +54,14 @@ public class SeaBattle {
     }
 
     public AddPlayerShotObserverUseCase addPlayerShotObserverUseCase() {
-        return addPlayerShotObserverUseCase;
+        return playerShotObservable;
     }
 
     public AddGameOverObserverUseCase addGameOverObserverUseCase() {
-        return addGameOverObserverUseCase;
+        return gameOverObservable;
+    }
+
+    public AddAllShipsPositionedObserverUseCase addAllShipsPositionedObserverUseCase() {
+        return allShipsPositionedObservable;
     }
 }

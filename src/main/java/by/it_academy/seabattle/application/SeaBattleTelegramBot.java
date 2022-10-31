@@ -28,6 +28,7 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
         seaBattle.addGameStartedObserverUseCase().add(this::onGameStarted);
         seaBattle.addPlayerShotObserverUseCase().add(this::onShot);
         seaBattle.addGameOverObserverUseCase().add(this::onGameOver);
+        seaBattle.addAllShipsPositionedObserverUseCase().add(this::onAllShipsPositioned);
     }
 
     @Override
@@ -57,6 +58,13 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
             chats.save(chatId, UUID.fromString(result));
         }
         respond(chatId, result);
+    }
+
+    private void onAllShipsPositioned(UUID firstPlayerId, UUID secondPlayerId) {
+        Stream.of(firstPlayerId, secondPlayerId)
+                .map(chats::chatId)
+                .flatMap(Optional::stream)
+                .forEach(chatId -> respond(chatId, "All ships positioned!"));
     }
 
     private void onGameOver(UUID winnerId, UUID loserId) {

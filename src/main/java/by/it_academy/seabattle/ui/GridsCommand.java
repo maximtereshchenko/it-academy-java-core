@@ -90,9 +90,7 @@ public final class GridsCommand implements Command {
     }
 
     private String toString(Set<GridsQuery.SquareView> squareViews) {
-        StringBuilder builder = new StringBuilder("<pre>")
-                .append(System.lineSeparator())
-                .append("   ABCDEFGHIJ")
+        StringBuilder builder = new StringBuilder("   ABCDEFGHIJ")
                 .append(System.lineSeparator())
                 .append("  -----------")
                 .append(System.lineSeparator());
@@ -110,6 +108,6 @@ public final class GridsCommand implements Command {
             }
             builder.append(System.lineSeparator());
         }
-        return builder.append("</pre>").toString();
+        return builder.toString();
     }
 }
