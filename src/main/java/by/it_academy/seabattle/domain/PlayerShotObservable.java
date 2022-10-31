@@ -32,10 +32,10 @@ final class PlayerShotObservable implements ShootUseCase, AddPlayerShotObserverU
         observers.add(observer);
     }
 
-    private UUID otherPlayerId(Game state, UUID playerId) {
-        if (state.firstPlayerId().equals(playerId)) {
-            return state.secondPlayerId();
+    private UUID otherPlayerId(Game game, UUID playerId) {
+        if (game.firstPlayerId().equals(playerId)) {
+            return game.secondPlayerId();
         }
-        return playerId;
+        return game.firstPlayerId();
     }
 }

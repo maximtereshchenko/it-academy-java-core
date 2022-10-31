@@ -1,6 +1,7 @@
 package by.it_academy.seabattle.ui;
 
 import by.it_academy.seabattle.usecase.ShootUseCase;
+import by.it_academy.seabattle.usecase.SquareQuery;
 import by.it_academy.seabattle.usecase.exception.GameWasNotFound;
 import by.it_academy.seabattle.usecase.exception.NotYourTurn;
 import by.it_academy.seabattle.usecase.exception.SquareIsNotValid;
@@ -11,9 +12,11 @@ import java.util.UUID;
 public final class ShootCommand implements Command {
 
     private final ShootUseCase useCase;
+    private final SquareQuery squareQuery;
 
-    public ShootCommand(ShootUseCase useCase) {
+    public ShootCommand(ShootUseCase useCase, SquareQuery squareQuery) {
         this.useCase = useCase;
+        this.squareQuery = squareQuery;
     }
 
     @Override
@@ -30,7 +33,14 @@ public final class ShootCommand implements Command {
     public String execute(UUID playerId, List<String> arguments) {
         try {
             useCase.shoot(playerId, arguments.get(0));
-            return "Shot was fired";
+            SquareQuery.Status status = squareQuery.square(playerId, arguments.get(0));
+            if (status == SquareQuery.Status.DESTROYED_SHIP_SEGMENT) {
+                return "Hit";
+            }
+            if (status == SquareQuery.Status.CHECKED) {
+                return "Miss";
+            }
+            return "";
         } catch (GameWasNotFound e) {
             return "Game was not found";
         } catch (SquareIsNotValid e) {

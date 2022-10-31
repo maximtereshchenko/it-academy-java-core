@@ -3,6 +3,7 @@ package by.it_academy.seabattle.application;
 import by.it_academy.seabattle.domain.SeaBattle;
 import by.it_academy.seabattle.ui.RegisterCommand;
 import by.it_academy.seabattle.ui.TextInterface;
+import by.it_academy.seabattle.usecase.SquareQuery;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -26,7 +27,10 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
         this.chats = chats;
         this.textInterface = textInterface;
         seaBattle.addGameStartedObserverUseCase().add(this::onGameStarted);
-        seaBattle.addPlayerShotObserverUseCase().add(this::onShot);
+        seaBattle.addPlayerShotObserverUseCase()
+                .add((shotOwnerId, targetGridOwnerId, coordinates) ->
+                        onShot(shotOwnerId, targetGridOwnerId, coordinates, seaBattle.squareQuery())
+                );
         seaBattle.addGameOverObserverUseCase().add(this::onGameOver);
         seaBattle.addAllShipsPositionedObserverUseCase().add(this::onAllShipsPositioned);
     }
@@ -74,8 +78,28 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
                 .forEach(chatId -> respond(chatId, "Game is over!"));
     }
 
-    private void onShot(UUID shotOwnerId, UUID targetGridOwnerId, String coordinates) {
-        chats.chatId(targetGridOwnerId).ifPresent(chatId -> respond(chatId, "Opponent shot at " + coordinates));
+    private void onShot(UUID shotOwnerId, UUID targetGridOwnerId, String coordinates, SquareQuery squareQuery) {
+        chats.chatId(targetGridOwnerId)
+                .ifPresent(chatId ->
+                        respond(
+                                chatId,
+                                "Opponent shot at %s - %s!".formatted(
+                                        coordinates,
+                                        shotResult(shotOwnerId, coordinates, squareQuery)
+                                )
+                        )
+                );
+    }
+
+    private String shotResult(UUID shotOwnerId, String coordinates, SquareQuery squareQuery) {
+        SquareQuery.Status status = squareQuery.square(shotOwnerId, coordinates);
+        if (status == SquareQuery.Status.DESTROYED_SHIP_SEGMENT) {
+            return "Hit";
+        }
+        if (status == SquareQuery.Status.CHECKED) {
+            return "Miss";
+        }
+        return "";
     }
 
     private void onGameStarted(UUID firstPlayerId, UUID secondPlayerId) {

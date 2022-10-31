@@ -44,7 +44,7 @@ final class Runner {
                 new PositionCommand(seaBattle.positionShipUseCase()),
                 new QueueCommand(seaBattle.addPlayerToQueueUseCase()),
                 new RegisterCommand(seaBattle.registerNewPlayerUseCase()),
-                new ShootCommand(seaBattle.shootUseCase())
+                new ShootCommand(seaBattle.shootUseCase(), seaBattle.squareQuery())
         );
     }
 
