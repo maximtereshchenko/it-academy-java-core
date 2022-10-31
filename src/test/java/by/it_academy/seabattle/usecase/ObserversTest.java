@@ -31,6 +31,17 @@ final class ObserversTest extends SeaBattleTest {
         assertThat(observer.coordinates).isEqualTo("a1");
     }
 
+    @Test
+    void givenGameOverObserverAdded_whenGameWasOver_thenObserverNotified() {
+        GameOverObserver observer = new GameOverObserver();
+        seaBattle.addGameOverObserverUseCase().add(observer);
+        startBattle();
+        destroyAllEnemyShips();
+
+        assertThat(observer.winnerId).isEqualTo(firstPlayerId);
+        assertThat(observer.loserId).isEqualTo(secondPlayerId);
+    }
+
     private static final class GameStartedObserver implements AddGameStartedObserverUseCase.Observer {
 
         private UUID firstPlayerIdStartedGame;
@@ -54,6 +65,18 @@ final class ObserversTest extends SeaBattleTest {
             this.shotOwnerId = shotOwnerId;
             this.targetGridOwnerId = targetGridOwnerId;
             this.coordinates = coordinates;
+        }
+    }
+
+    private static final class GameOverObserver implements AddGameOverObserverUseCase.Observer {
+
+        private UUID winnerId;
+        private UUID loserId;
+
+        @Override
+        public void onGameOver(UUID winnerId, UUID loserId) {
+            this.winnerId = winnerId;
+            this.loserId = loserId;
         }
     }
 }

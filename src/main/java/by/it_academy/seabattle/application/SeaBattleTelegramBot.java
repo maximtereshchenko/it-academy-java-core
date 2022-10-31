@@ -1,8 +1,8 @@
 package by.it_academy.seabattle.application;
 
+import by.it_academy.seabattle.domain.SeaBattle;
 import by.it_academy.seabattle.ui.RegisterCommand;
 import by.it_academy.seabattle.ui.TextInterface;
-import by.it_academy.seabattle.usecase.AddGameStartedObserverUseCase;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -22,10 +22,12 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
     private final Chats chats;
     private final TextInterface textInterface;
 
-    SeaBattleTelegramBot(Chats chats, TextInterface textInterface, AddGameStartedObserverUseCase useCase) {
+    SeaBattleTelegramBot(Chats chats, TextInterface textInterface, SeaBattle seaBattle) {
         this.chats = chats;
         this.textInterface = textInterface;
-        useCase.add(this::onGameStarted);
+        seaBattle.addGameStartedObserverUseCase().add(this::onGameStarted);
+        seaBattle.addPlayerShotObserverUseCase().add(this::onShot);
+        seaBattle.addGameOverObserverUseCase().add(this::onGameOver);
     }
 
     @Override
@@ -55,6 +57,17 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
             chats.save(chatId, UUID.fromString(result));
         }
         respond(chatId, result);
+    }
+
+    private void onGameOver(UUID winnerId, UUID loserId) {
+        Stream.of(winnerId, loserId)
+                .map(chats::chatId)
+                .flatMap(Optional::stream)
+                .forEach(chatId -> respond(chatId, "Game is over!"));
+    }
+
+    private void onShot(UUID shotOwnerId, UUID targetGridOwnerId, String coordinates) {
+        chats.chatId(targetGridOwnerId).ifPresent(chatId -> respond(chatId, "Opponent shot at " + coordinates));
     }
 
     private void onGameStarted(UUID firstPlayerId, UUID secondPlayerId) {

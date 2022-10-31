@@ -1,8 +1,8 @@
 package by.it_academy.seabattle.application;
 
+import by.it_academy.seabattle.domain.SeaBattle;
 import by.it_academy.seabattle.ui.RegisterCommand;
 import by.it_academy.seabattle.ui.TextInterface;
-import by.it_academy.seabattle.usecase.AddGameStartedObserverUseCase;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -13,9 +13,11 @@ final class ConsoleInterface implements Runnable {
     private final TextInterface textInterface;
     private UUID playerId;
 
-    ConsoleInterface(TextInterface textInterface, AddGameStartedObserverUseCase useCase) {
+    ConsoleInterface(TextInterface textInterface, SeaBattle seaBattle) {
         this.textInterface = textInterface;
-        useCase.add(this::onGameStarted);
+        seaBattle.addGameStartedObserverUseCase().add(this::onGameStarted);
+        seaBattle.addPlayerShotObserverUseCase().add(this::onShot);
+        seaBattle.addGameOverObserverUseCase().add(this::onGameOver);
     }
 
     @Override
@@ -36,5 +38,19 @@ final class ConsoleInterface implements Runnable {
             return;
         }
         System.out.println("Game has been started!");
+    }
+
+    private void onShot(UUID shotOwnerId, UUID targetGridOwnerId, String coordinates) {
+        if (!targetGridOwnerId.equals(playerId)) {
+            return;
+        }
+        System.out.println("Opponent shot at " + coordinates);
+    }
+
+    private void onGameOver(UUID winnerId, UUID loserId) {
+        if (!winnerId.equals(playerId) && !loserId.equals(playerId)) {
+            return;
+        }
+        System.out.println("Game is over!");
     }
 }

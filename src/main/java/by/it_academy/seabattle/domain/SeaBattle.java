@@ -9,7 +9,9 @@ public class SeaBattle {
     private final PlayerService playerService;
     private final QueueService queueService;
     private final GameService gameService;
-    private final ObservableShootUseCase observableShootUseCase;
+    private final AddPlayerShotObserverUseCase addPlayerShotObserverUseCase;
+    private final AddGameOverObserverUseCase addGameOverObserverUseCase;
+    private final ShootUseCase shootUseCase;
 
     public SeaBattle(PlayerIds playerIds, GameStates gameStates) {
         Players players = new Players(playerIds);
@@ -18,7 +20,11 @@ public class SeaBattle {
         playerService = new PlayerService(players);
         queueService = new QueueService(players, games, new Queue(games));
         gameService = new GameService(players, games, shipFactory);
-        observableShootUseCase = new ObservableShootUseCase(gameService, players, games);
+        PlayerShotObservable playerShotObservable = new PlayerShotObservable(gameService, players, games);
+        GameOverObservable gameOverObservable = new GameOverObservable(playerShotObservable, players, games);
+        addPlayerShotObserverUseCase = playerShotObservable;
+        addGameOverObserverUseCase = gameOverObservable;
+        shootUseCase = gameOverObservable;
     }
 
     public RegisterNewPlayerUseCase registerNewPlayerUseCase() {
@@ -38,7 +44,7 @@ public class SeaBattle {
     }
 
     public ShootUseCase shootUseCase() {
-        return observableShootUseCase;
+        return shootUseCase;
     }
 
     public FillGridWithRandomShipsUseCase fillGridWithRandomShipsUseCase() {
@@ -50,6 +56,10 @@ public class SeaBattle {
     }
 
     public AddPlayerShotObserverUseCase addPlayerShotObserverUseCase() {
-        return observableShootUseCase;
+        return addPlayerShotObserverUseCase;
+    }
+
+    public AddGameOverObserverUseCase addGameOverObserverUseCase() {
+        return addGameOverObserverUseCase;
     }
 }
