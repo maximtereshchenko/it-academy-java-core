@@ -1,14 +1,14 @@
 package by.it_academy.seabattle.domain;
 
+import by.it_academy.seabattle.usecase.AddGameStartedObserverUseCase;
 import by.it_academy.seabattle.usecase.exception.PlayerIsInQueue;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 class Queue {
 
     private final Set<Player> players = new HashSet<>();
+    private final Collection<AddGameStartedObserverUseCase.Observer> observers = new ArrayList<>();
     private final Games games;
 
     Queue(Games games) {
@@ -28,5 +28,10 @@ class Queue {
         games.save(new ShipPositioningPhase(firstPlayer, secondPlayer));
         players.remove(firstPlayer);
         players.remove(secondPlayer);
+        observers.forEach(observer -> observer.onGameStarted(firstPlayer.id(), secondPlayer.id()));
+    }
+
+    void addObserver(AddGameStartedObserverUseCase.Observer observer) {
+        observers.add(observer);
     }
 }

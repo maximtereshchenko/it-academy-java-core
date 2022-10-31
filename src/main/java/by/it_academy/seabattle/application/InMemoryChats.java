@@ -15,6 +15,15 @@ final class InMemoryChats implements Chats {
     }
 
     @Override
+    public Optional<Long> chatId(UUID playerId) {
+        return map.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().equals(playerId))
+                .map(Map.Entry::getKey)
+                .findAny();
+    }
+
+    @Override
     public void save(long chatId, UUID playerId) {
         map.put(chatId, playerId);
     }

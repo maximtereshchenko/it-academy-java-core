@@ -28,10 +28,12 @@ final class Runner {
                 .registerBot(
                         new SeaBattleTelegramBot(
                                 new InMemoryChats(),
-                                textInterface
+                                textInterface,
+                                seaBattle.addGameStartedObserverUseCase()
                         )
                 );
-        Executors.newSingleThreadExecutor().execute(new ConsoleInterface(textInterface));
+        Executors.newSingleThreadExecutor()
+                .execute(new ConsoleInterface(textInterface, seaBattle.addGameStartedObserverUseCase()));
     }
 
     private static List<Command> concat(Collection<Command> commands, Command other) {

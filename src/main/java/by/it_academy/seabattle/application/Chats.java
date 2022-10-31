@@ -7,5 +7,7 @@ interface Chats {
 
     Optional<UUID> playerId(long chatId);
 
+    Optional<Long> chatId(UUID playerId);
+
     void save(long chatId, UUID playerId);
 }

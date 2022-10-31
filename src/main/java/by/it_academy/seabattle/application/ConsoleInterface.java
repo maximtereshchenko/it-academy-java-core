@@ -2,6 +2,7 @@ package by.it_academy.seabattle.application;
 
 import by.it_academy.seabattle.ui.RegisterCommand;
 import by.it_academy.seabattle.ui.TextInterface;
+import by.it_academy.seabattle.usecase.AddGameStartedObserverUseCase;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -12,8 +13,9 @@ final class ConsoleInterface implements Runnable {
     private final TextInterface textInterface;
     private UUID playerId;
 
-    ConsoleInterface(TextInterface textInterface) {
+    ConsoleInterface(TextInterface textInterface, AddGameStartedObserverUseCase useCase) {
         this.textInterface = textInterface;
+        useCase.add(this::onGameStarted);
     }
 
     @Override
@@ -27,5 +29,12 @@ final class ConsoleInterface implements Runnable {
             }
             System.out.println(result);
         }
+    }
+
+    private void onGameStarted(UUID firstPlayerId, UUID secondPlayerId) {
+        if (!firstPlayerId.equals(playerId) && !secondPlayerId.equals(playerId)) {
+            return;
+        }
+        System.out.println("Game has been started!");
     }
 }

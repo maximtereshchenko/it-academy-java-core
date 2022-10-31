@@ -1,11 +1,12 @@
 package by.it_academy.seabattle.domain;
 
+import by.it_academy.seabattle.usecase.AddGameStartedObserverUseCase;
 import by.it_academy.seabattle.usecase.AddPlayerToQueueUseCase;
 import by.it_academy.seabattle.usecase.exception.GameWithPlayerExists;
 
 import java.util.UUID;
 
-class QueueService implements AddPlayerToQueueUseCase {
+class QueueService implements AddPlayerToQueueUseCase, AddGameStartedObserverUseCase {
 
     private final Players players;
     private final Games games;
@@ -24,5 +25,10 @@ class QueueService implements AddPlayerToQueueUseCase {
             throw new GameWithPlayerExists();
         }
         queue.register(player);
+    }
+
+    @Override
+    public void add(Observer observer) {
+        queue.addObserver(observer);
     }
 }

@@ -2,6 +2,7 @@ package by.it_academy.seabattle.application;
 
 import by.it_academy.seabattle.ui.RegisterCommand;
 import by.it_academy.seabattle.ui.TextInterface;
+import by.it_academy.seabattle.usecase.AddGameStartedObserverUseCase;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -12,16 +13,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 final class SeaBattleTelegramBot extends TelegramLongPollingBot {
 
     private final Chats chats;
     private final TextInterface textInterface;
 
-    SeaBattleTelegramBot(Chats chats, TextInterface textInterface) {
+    SeaBattleTelegramBot(Chats chats, TextInterface textInterface, AddGameStartedObserverUseCase useCase) {
         this.chats = chats;
         this.textInterface = textInterface;
+        useCase.add(this::onGameStarted);
     }
 
     @Override
@@ -51,6 +55,13 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
             chats.save(chatId, UUID.fromString(result));
         }
         respond(chatId, result);
+    }
+
+    private void onGameStarted(UUID firstPlayerId, UUID secondPlayerId) {
+        Stream.of(firstPlayerId, secondPlayerId)
+                .map(chats::chatId)
+                .flatMap(Optional::stream)
+                .forEach(chatId -> respond(chatId, "Game has been started!"));
     }
 
     private String input(Message message) {

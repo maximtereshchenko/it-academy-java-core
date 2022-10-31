@@ -42,4 +42,8 @@ public class SeaBattle {
     public FillGridWithRandomShipsUseCase fillGridWithRandomShipsUseCase() {
         return gameService;
     }
+
+    public AddGameStartedObserverUseCase addGameStartedObserverUseCase() {
+        return queueService;
+    }
 }
