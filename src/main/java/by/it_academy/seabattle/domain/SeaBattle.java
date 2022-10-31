@@ -9,6 +9,7 @@ public class SeaBattle {
     private final PlayerService playerService;
     private final QueueService queueService;
     private final GameService gameService;
+    private final ObservableShootUseCase observableShootUseCase;
 
     public SeaBattle(PlayerIds playerIds, GameStates gameStates) {
         Players players = new Players(playerIds);
@@ -17,6 +18,7 @@ public class SeaBattle {
         playerService = new PlayerService(players);
         queueService = new QueueService(players, games, new Queue(games));
         gameService = new GameService(players, games, shipFactory);
+        observableShootUseCase = new ObservableShootUseCase(gameService, players, games);
     }
 
     public RegisterNewPlayerUseCase registerNewPlayerUseCase() {
@@ -36,7 +38,7 @@ public class SeaBattle {
     }
 
     public ShootUseCase shootUseCase() {
-        return gameService;
+        return observableShootUseCase;
     }
 
     public FillGridWithRandomShipsUseCase fillGridWithRandomShipsUseCase() {
@@ -45,5 +47,9 @@ public class SeaBattle {
 
     public AddGameStartedObserverUseCase addGameStartedObserverUseCase() {
         return queueService;
+    }
+
+    public AddPlayerShotObserverUseCase addPlayerShotObserverUseCase() {
+        return observableShootUseCase;
     }
 }

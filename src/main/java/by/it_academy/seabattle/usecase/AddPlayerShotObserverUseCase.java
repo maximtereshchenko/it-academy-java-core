@@ -2,12 +2,12 @@ package by.it_academy.seabattle.usecase;
 
 import java.util.UUID;
 
-public interface AddGameStartedObserverUseCase {
+public interface AddPlayerShotObserverUseCase {
 
     void add(Observer observer);
 
     interface Observer {
 
-        void onGameStarted(UUID firstPlayerId, UUID secondPlayerId);
+        void onShot(UUID shotOwnerId, UUID targetGridOwnerId, String coordinates);
     }
 }
