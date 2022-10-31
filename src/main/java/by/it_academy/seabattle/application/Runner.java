@@ -16,15 +16,15 @@ final class Runner {
 
     public static void main(String[] args) throws TelegramApiException {
         SeaBattle seaBattle = new SeaBattle(
-                new InMemoryPlayerIds(),
-                new InMemoryGameStates(),
+                new PlayerIdsInFiles(),
+                new GameStatesInFiles(),
                 Clock.systemDefaultZone()
         );
         GridsCommand gridsCommand = new GridsCommand(seaBattle.boardsQuery());
         new TelegramBotsApi(DefaultBotSession.class)
                 .registerBot(
                         new SeaBattleTelegramBot(
-                                new InMemoryChats(),
+                                new ChatsInFiles(),
                                 new TextInterface(commands(seaBattle, new UseMonospaceFont(gridsCommand))),
                                 seaBattle
                         )
