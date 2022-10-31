@@ -1,15 +1,6 @@
 package by.it_academy.lesson17;
 
-import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Period;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
@@ -46,6 +37,8 @@ class DateTimeApi {
         );
 
         System.out.println(formatter.format(ZonedDateTime.now()));
+
+        System.out.println(DateTimeFormatter.BASIC_ISO_DATE.parse("20221031", LocalDate::from));
     }
 
     private static void duration() {
@@ -68,7 +61,7 @@ class DateTimeApi {
 
     private static void clock() {
         Clock defaultClock = Clock.systemDefaultZone();
-        Clock fixedClock = Clock.fixed(Instant.now(), ZoneId.of("+3"));
+        Clock fixedClock = Clock.fixed(Instant.now(), ZoneOffset.ofHours(3));
 
         System.out.println("defaultClock = " + defaultClock);
         System.out.println("fixedClock = " + fixedClock);
