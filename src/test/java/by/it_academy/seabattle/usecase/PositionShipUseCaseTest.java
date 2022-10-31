@@ -6,6 +6,8 @@ import by.it_academy.seabattle.usecase.exception.ShipIsNotValid;
 import by.it_academy.seabattle.usecase.exception.SquareIsNotValid;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +46,9 @@ class PositionShipUseCaseTest extends SeaBattleTest {
                         firstPlayerId,
                         secondPlayerId,
                         Set.of(new GridsQuery.SquareView('a', 1, GridsQuery.Status.SHIP_SEGMENT)),
-                        Set.of()
+                        Set.of(),
+                        LocalDateTime.of(2020, 1, 1, 0, 0, 0)
+                                .toInstant(ZoneOffset.UTC)
                 )
         );
     }

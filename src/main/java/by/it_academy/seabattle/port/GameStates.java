@@ -1,5 +1,6 @@
 package by.it_academy.seabattle.port;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -23,7 +24,8 @@ public interface GameStates {
             UUID id,
             Phase phase,
             Grid turnOwnerGrid,
-            Grid otherPlayerGrid
+            Grid otherPlayerGrid,
+            Instant startedAt
     ) {}
 
     record Grid(UUID playerId, Set<Ship> ships, Set<Square> checkedSquares) {}

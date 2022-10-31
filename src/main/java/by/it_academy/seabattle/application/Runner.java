@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,7 +15,11 @@ import java.util.concurrent.Executors;
 final class Runner {
 
     public static void main(String[] args) throws TelegramApiException {
-        SeaBattle seaBattle = new SeaBattle(new InMemoryPlayerIds(), new InMemoryGameStates());
+        SeaBattle seaBattle = new SeaBattle(
+                new InMemoryPlayerIds(),
+                new InMemoryGameStates(),
+                Clock.systemDefaultZone()
+        );
         GridsCommand gridsCommand = new GridsCommand(seaBattle.boardsQuery());
         new TelegramBotsApi(DefaultBotSession.class)
                 .registerBot(

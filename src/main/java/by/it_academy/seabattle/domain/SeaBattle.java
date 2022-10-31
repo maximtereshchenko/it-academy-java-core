@@ -4,6 +4,8 @@ import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.port.PlayerIds;
 import by.it_academy.seabattle.usecase.*;
 
+import java.time.Clock;
+
 public class SeaBattle {
 
     private final PlayerService playerService;
@@ -13,12 +15,12 @@ public class SeaBattle {
     private final GameOverObservable gameOverObservable;
     private final AllShipsPositionedObservable allShipsPositionedObservable;
 
-    public SeaBattle(PlayerIds playerIds, GameStates gameStates) {
+    public SeaBattle(PlayerIds playerIds, GameStates gameStates, Clock clock) {
         Players players = new Players(playerIds);
         ShipFactory shipFactory = new ShipFactory();
         Games games = new Games(gameStates, shipFactory);
         playerService = new PlayerService(players);
-        queueService = new QueueService(players, games, new Queue(games));
+        queueService = new QueueService(players, games, new Queue(games, clock));
         gameService = new GameService(players, games, shipFactory);
         playerShotObservable = new PlayerShotObservable(gameService, players, games);
         gameOverObservable = new GameOverObservable(playerShotObservable, players, games);

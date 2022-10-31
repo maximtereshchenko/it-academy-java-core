@@ -1,5 +1,6 @@
 package by.it_academy.seabattle.usecase;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -23,7 +24,8 @@ public interface GridsQuery {
             UUID turnOwnerId,
             UUID otherPlayerId,
             Set<SquareView> ownedSquares,
-            Set<SquareView> opponentSquares
+            Set<SquareView> opponentSquares,
+            Instant startedAt
     ) {
 
         public Optional<UUID> winner() {

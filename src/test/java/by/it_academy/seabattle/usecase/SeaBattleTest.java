@@ -4,13 +4,20 @@ import by.it_academy.seabattle.application.InMemoryGameStates;
 import by.it_academy.seabattle.application.InMemoryPlayerIds;
 import by.it_academy.seabattle.domain.SeaBattle;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 abstract class SeaBattleTest {
 
-    final SeaBattle seaBattle = new SeaBattle(new InMemoryPlayerIds(), new InMemoryGameStates());
+    final SeaBattle seaBattle = new SeaBattle(
+            new InMemoryPlayerIds(),
+            new InMemoryGameStates(),
+            Clock.fixed(Instant.parse("2020-01-01T00:00:00Z"), ZoneOffset.UTC)
+    );
     final UUID firstPlayerId = UUID.fromString("00000000-0000-0000-0000-000000000001");
     final UUID secondPlayerId = UUID.fromString("00000000-0000-0000-0000-000000000002");
 

@@ -94,7 +94,8 @@ class CustomerTest {
         return List.of(
                 regularFilmRental(8),
                 newReleaseRental(),
-                movieForChildrenRental(2));
+                movieForChildrenRental(2)
+        );
     }
 
 }

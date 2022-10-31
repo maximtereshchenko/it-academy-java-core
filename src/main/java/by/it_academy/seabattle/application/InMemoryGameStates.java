@@ -2,10 +2,7 @@ package by.it_academy.seabattle.application;
 
 import by.it_academy.seabattle.port.GameStates;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public final class InMemoryGameStates implements GameStates {
 
@@ -22,7 +19,7 @@ public final class InMemoryGameStates implements GameStates {
         return map.values()
                 .stream()
                 .filter(state -> hasPlayer(playerId, state))
-                .findAny();
+                .max(Comparator.comparing(GameStates.State::startedAt));
     }
 
     @Override

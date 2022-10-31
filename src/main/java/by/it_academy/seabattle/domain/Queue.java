@@ -3,6 +3,7 @@ package by.it_academy.seabattle.domain;
 import by.it_academy.seabattle.usecase.AddGameStartedObserverUseCase;
 import by.it_academy.seabattle.usecase.exception.PlayerIsInQueue;
 
+import java.time.Clock;
 import java.util.*;
 
 class Queue {
@@ -10,9 +11,11 @@ class Queue {
     private final Set<Player> players = new HashSet<>();
     private final Collection<AddGameStartedObserverUseCase.Observer> observers = new ArrayList<>();
     private final Games games;
+    private final Clock clock;
 
-    Queue(Games games) {
+    Queue(Games games, Clock clock) {
         this.games = games;
+        this.clock = clock;
     }
 
     void register(Player player) {
@@ -25,7 +28,7 @@ class Queue {
         Iterator<Player> iterator = players.iterator();
         Player firstPlayer = iterator.next();
         Player secondPlayer = iterator.next();
-        games.save(new ShipPositioningPhase(firstPlayer, secondPlayer));
+        games.save(new ShipPositioningPhase(firstPlayer, secondPlayer, clock));
         players.remove(firstPlayer);
         players.remove(secondPlayer);
         observers.forEach(observer -> observer.onGameStarted(firstPlayer.id(), secondPlayer.id()));

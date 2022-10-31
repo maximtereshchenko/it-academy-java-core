@@ -5,6 +5,8 @@ import by.it_academy.seabattle.usecase.GridsQuery;
 import by.it_academy.seabattle.usecase.exception.GridIsComplete;
 import by.it_academy.seabattle.usecase.exception.ShipIsNotValid;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.util.UUID;
 
 final class ShipPositioningPhase extends AbstractGame {
@@ -12,15 +14,22 @@ final class ShipPositioningPhase extends AbstractGame {
     private final UUID id;
     private final ShipPositioningGrid firstPlayerGrid;
     private final ShipPositioningGrid secondPlayerGrid;
+    private final Instant startedAt;
 
-    ShipPositioningPhase(UUID id, ShipPositioningGrid firstPlayerGrid, ShipPositioningGrid secondPlayerGrid) {
+    ShipPositioningPhase(
+            UUID id,
+            ShipPositioningGrid firstPlayerGrid,
+            ShipPositioningGrid secondPlayerGrid,
+            Instant startedAt
+    ) {
         this.id = id;
         this.firstPlayerGrid = firstPlayerGrid;
         this.secondPlayerGrid = secondPlayerGrid;
+        this.startedAt = startedAt;
     }
 
-    ShipPositioningPhase(Player firstPlayer, Player secondPlayer) {
-        this(UUID.randomUUID(), new IncompleteGrid(firstPlayer), new IncompleteGrid(secondPlayer));
+    ShipPositioningPhase(Player firstPlayer, Player secondPlayer, Clock clock) {
+        this(UUID.randomUUID(), new IncompleteGrid(firstPlayer), new IncompleteGrid(secondPlayer), Instant.now(clock));
     }
 
     @Override
@@ -29,7 +38,8 @@ final class ShipPositioningPhase extends AbstractGame {
                 id,
                 GameStates.Phase.SHIP_POSITIONING,
                 firstPlayerGrid.state(),
-                secondPlayerGrid.state()
+                secondPlayerGrid.state(),
+                startedAt
         );
     }
 
@@ -40,7 +50,8 @@ final class ShipPositioningPhase extends AbstractGame {
                 firstPlayerGrid.ownerId(),
                 secondPlayerGrid.ownerId(),
                 ownedGrid(player, firstPlayerGrid, secondPlayerGrid).view(player),
-                otherPlayerGrid(player, firstPlayerGrid, secondPlayerGrid).view(player)
+                otherPlayerGrid(player, firstPlayerGrid, secondPlayerGrid).view(player),
+                startedAt
         );
     }
 
@@ -78,7 +89,7 @@ final class ShipPositioningPhase extends AbstractGame {
     }
 
     private Game battlePhase() {
-        return new BattlePhase(id, firstPlayerGrid.battleGrid(), secondPlayerGrid.battleGrid());
+        return new BattlePhase(id, firstPlayerGrid.battleGrid(), secondPlayerGrid.battleGrid(), startedAt);
     }
 
     private boolean canNotBePositioned(Player player, IntactShip ship) {
@@ -89,7 +100,8 @@ final class ShipPositioningPhase extends AbstractGame {
         return new ShipPositioningPhase(
                 id,
                 gridWithShipIfOwned(firstPlayerGrid, player, ship),
-                gridWithShipIfOwned(secondPlayerGrid, player, ship)
+                gridWithShipIfOwned(secondPlayerGrid, player, ship),
+                startedAt
         );
     }
 

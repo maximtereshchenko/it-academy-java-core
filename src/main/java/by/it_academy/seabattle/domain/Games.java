@@ -60,7 +60,8 @@ final class Games {
         return new GameOverPhase(
                 state.id(),
                 battleGrid(state.turnOwnerGrid()).reveal(),
-                battleGrid(state.otherPlayerGrid()).reveal()
+                battleGrid(state.otherPlayerGrid()).reveal(),
+                state.startedAt()
         );
     }
 
@@ -68,7 +69,8 @@ final class Games {
         return new BattlePhase(
                 state.id(),
                 battleGrid(state.turnOwnerGrid()),
-                battleGrid(state.otherPlayerGrid())
+                battleGrid(state.otherPlayerGrid()),
+                state.startedAt()
         );
     }
 
@@ -102,7 +104,8 @@ final class Games {
         return new ShipPositioningPhase(
                 state.id(),
                 shipPositioningGrid(state.turnOwnerGrid()),
-                shipPositioningGrid(state.otherPlayerGrid())
+                shipPositioningGrid(state.otherPlayerGrid()),
+                state.startedAt()
         );
     }
 
