@@ -33,6 +33,16 @@ final class ShipPositioningPhase extends AbstractGame {
     }
 
     @Override
+    public UUID firstPlayerId() {
+        return firstPlayerGrid.ownerId();
+    }
+
+    @Override
+    public UUID secondPlayerId() {
+        return secondPlayerGrid.ownerId();
+    }
+
+    @Override
     public GameStates.State state() {
         return new GameStates.State(
                 id,
@@ -53,6 +63,16 @@ final class ShipPositioningPhase extends AbstractGame {
                 otherPlayerGrid(player, firstPlayerGrid, secondPlayerGrid).view(player),
                 startedAt
         );
+    }
+
+    @Override
+    public boolean isNotOver() {
+        return true;
+    }
+
+    @Override
+    public boolean hasNotAllShips() {
+        return !firstPlayerGrid.isComplete() || !secondPlayerGrid.isComplete();
     }
 
     Game position(Player player, IntactShip ship) {

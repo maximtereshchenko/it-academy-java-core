@@ -1,6 +1,5 @@
 package by.it_academy.seabattle.domain;
 
-import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.AddPlayerShotObserverUseCase;
 import by.it_academy.seabattle.usecase.ShootUseCase;
 
@@ -24,8 +23,8 @@ final class PlayerShotObservable implements ShootUseCase, AddPlayerShotObserverU
     @Override
     public void shoot(UUID playerId, String coordinates) {
         original.shoot(playerId, coordinates);
-        GameStates.State state = games.findGameByPlayer(players.findPlayer(playerId)).state();
-        observers.forEach(observer -> observer.onShot(playerId, otherPlayerId(state, playerId), coordinates));
+        Game game = games.findGameByPlayer(players.findPlayer(playerId));
+        observers.forEach(observer -> observer.onShot(playerId, otherPlayerId(game, playerId), coordinates));
     }
 
     @Override
@@ -33,9 +32,9 @@ final class PlayerShotObservable implements ShootUseCase, AddPlayerShotObserverU
         observers.add(observer);
     }
 
-    private UUID otherPlayerId(GameStates.State state, UUID playerId) {
-        if (state.turnOwnerGrid().playerId().equals(playerId)) {
-            return state.otherPlayerGrid().playerId();
+    private UUID otherPlayerId(Game state, UUID playerId) {
+        if (state.firstPlayerId().equals(playerId)) {
+            return state.secondPlayerId();
         }
         return playerId;
     }

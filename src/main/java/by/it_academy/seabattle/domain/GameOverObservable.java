@@ -1,6 +1,5 @@
 package by.it_academy.seabattle.domain;
 
-import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.AddGameOverObserverUseCase;
 import by.it_academy.seabattle.usecase.ShootUseCase;
 
@@ -24,12 +23,12 @@ final class GameOverObservable implements ShootUseCase, AddGameOverObserverUseCa
     @Override
     public void shoot(UUID playerId, String coordinates) {
         original.shoot(playerId, coordinates);
-        GameStates.State state = games.findGameByPlayer(players.findPlayer(playerId)).state();
-        if (state.phase() != GameStates.Phase.OVER) {
+        Game game = games.findGameByPlayer(players.findPlayer(playerId));
+        if (game.isNotOver()) {
             return;
         }
         observers.forEach(observer ->
-                observer.onGameOver(state.turnOwnerGrid().playerId(), state.otherPlayerGrid().playerId())
+                observer.onGameOver(game.firstPlayerId(), game.secondPlayerId())
         );
     }
 

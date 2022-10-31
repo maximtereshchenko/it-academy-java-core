@@ -22,6 +22,16 @@ final class GameOverPhase extends AbstractGame {
 
 
     @Override
+    public UUID firstPlayerId() {
+        return winnerGrid.ownerId();
+    }
+
+    @Override
+    public UUID secondPlayerId() {
+        return loserGrid.ownerId();
+    }
+
+    @Override
     public GameStates.State state() {
         return new GameStates.State(id, GameStates.Phase.OVER, winnerGrid.state(), loserGrid.state(), startedAt);
     }
@@ -36,5 +46,15 @@ final class GameOverPhase extends AbstractGame {
                 otherPlayerGrid(player, winnerGrid, loserGrid).view(player),
                 startedAt
         );
+    }
+
+    @Override
+    public boolean isNotOver() {
+        return false;
+    }
+
+    @Override
+    public boolean hasNotAllShips() {
+        return false;
     }
 }

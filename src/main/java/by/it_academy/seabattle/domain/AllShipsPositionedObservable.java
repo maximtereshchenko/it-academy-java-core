@@ -1,6 +1,5 @@
 package by.it_academy.seabattle.domain;
 
-import by.it_academy.seabattle.port.GameStates;
 import by.it_academy.seabattle.usecase.AddAllShipsPositionedObserverUseCase;
 import by.it_academy.seabattle.usecase.FillGridWithRandomShipsUseCase;
 import by.it_academy.seabattle.usecase.PositionShipUseCase;
@@ -47,12 +46,10 @@ final class AllShipsPositionedObservable implements PositionShipUseCase, FillGri
     }
 
     private void notifyIfAllShipsPlaced(UUID playerId) {
-        GameStates.State state = games.findGameByPlayer(players.findPlayer(playerId)).state();
-        if (state.phase() != GameStates.Phase.BATTLE) {
+        Game game = games.findGameByPlayer(players.findPlayer(playerId));
+        if (game.hasNotAllShips()) {
             return;
         }
-        observers.forEach(observer ->
-                observer.onAllShipsPositioned(state.turnOwnerGrid().playerId(), state.otherPlayerGrid().playerId())
-        );
+        observers.forEach(observer -> observer.onAllShipsPositioned(game.firstPlayerId(), game.secondPlayerId()));
     }
 }

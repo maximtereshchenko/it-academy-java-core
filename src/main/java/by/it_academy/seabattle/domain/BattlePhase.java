@@ -22,6 +22,16 @@ final class BattlePhase extends AbstractGame {
     }
 
     @Override
+    public UUID firstPlayerId() {
+        return turnOwnerGrid.ownerId();
+    }
+
+    @Override
+    public UUID secondPlayerId() {
+        return otherPlayerGrid.ownerId();
+    }
+
+    @Override
     public GameStates.State state() {
         return new GameStates.State(
                 id,
@@ -42,6 +52,16 @@ final class BattlePhase extends AbstractGame {
                 otherPlayerGrid(player, turnOwnerGrid, otherPlayerGrid).view(player),
                 startedAt
         );
+    }
+
+    @Override
+    public boolean isNotOver() {
+        return true;
+    }
+
+    @Override
+    public boolean hasNotAllShips() {
+        return false;
     }
 
     Game shoot(Player player, Square square) {
