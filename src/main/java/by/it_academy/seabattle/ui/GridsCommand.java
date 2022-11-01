@@ -28,8 +28,14 @@ public final class GridsCommand implements Command {
 
     @Override
     public String execute(PlayerIdStorage playerIdStorage, List<String> arguments) {
+        return playerIdStorage.get()
+                .map(this::grids)
+                .orElse("No player ID found");
+    }
+
+    private String grids(UUID playerId) {
         try {
-            return toString(playerIdStorage.get(), query.currentGrids(playerIdStorage.get()));
+            return toString(playerId, query.currentGrids(playerId));
         } catch (GameWasNotFound e) {
             return "Game was not found";
         }

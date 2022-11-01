@@ -135,8 +135,8 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
         }
 
         @Override
-        public UUID get() {
-            return chats.playerId(chatId).orElse(null);
+        public Optional<UUID> get() {
+            return chats.playerId(chatId);
         }
 
         @Override

@@ -7,6 +7,7 @@ import by.it_academy.seabattle.usecase.exception.NotYourTurn;
 import by.it_academy.seabattle.usecase.exception.SquareIsNotValid;
 
 import java.util.List;
+import java.util.UUID;
 
 public final class ShootCommand implements Command {
 
@@ -30,9 +31,18 @@ public final class ShootCommand implements Command {
 
     @Override
     public String execute(PlayerIdStorage playerIdStorage, List<String> arguments) {
+        if (arguments.size() != 1) {
+            return "One argument expected";
+        }
+        return playerIdStorage.get()
+                .map(playerId -> shoot(playerId, arguments.get(0)))
+                .orElse("No player ID found");
+    }
+
+    private String shoot(UUID playerId, String coordinates) {
         try {
-            useCase.shoot(playerIdStorage.get(), arguments.get(0));
-            SquareQuery.Status status = squareQuery.square(playerIdStorage.get(), arguments.get(0));
+            useCase.shoot(playerId, coordinates);
+            SquareQuery.Status status = squareQuery.square(playerId, coordinates);
             if (status == SquareQuery.Status.DESTROYED_SHIP_SEGMENT) {
                 return "Hit";
             }

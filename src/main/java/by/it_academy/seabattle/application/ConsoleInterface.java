@@ -6,6 +6,7 @@ import by.it_academy.seabattle.ui.TextInterface;
 import by.it_academy.seabattle.usecase.SquareQuery;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -75,8 +76,8 @@ final class ConsoleInterface {
     private final class LocalStorage implements PlayerIdStorage {
 
         @Override
-        public UUID get() {
-            return playerId;
+        public Optional<UUID> get() {
+            return Optional.ofNullable(playerId);
         }
 
         @Override
