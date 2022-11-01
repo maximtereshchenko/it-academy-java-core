@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-final class AllShipsPositionedObservable implements PositionShipUseCase, FillGridWithRandomShipsUseCase, AddAllShipsPositionedObserverUseCase {
+final class AllShipsPositionedObservable
+        implements PositionShipUseCase, FillGridWithRandomShipsUseCase, AddAllShipsPositionedObserverUseCase {
 
     private final PositionShipUseCase positionShipUseCase;
     private final FillGridWithRandomShipsUseCase fillGridWithRandomShipsUseCase;

@@ -51,10 +51,10 @@ final class Square implements Comparable<Square> {
     }
 
     @Override
-    public int compareTo(Square cell) {
-        int columnCompareResult = Character.compare(column, cell.column);
+    public int compareTo(Square square) {
+        int columnCompareResult = Character.compare(column, square.column);
         if (columnCompareResult == 0) {
-            return Integer.compare(row, cell.row);
+            return Integer.compare(row, square.row);
         }
         return columnCompareResult;
     }

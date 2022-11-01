@@ -52,13 +52,13 @@ public class Cars {
             return Double.parseDouble(getParts()[4]);
         }
 
-        private String[] getParts() {
-            return line.split(";");
-        }
-
         @Override
         public String toString() {
             return getName() + " " + getHorsepower();
+        }
+
+        private String[] getParts() {
+            return line.split(";");
         }
     }
 }
