@@ -27,9 +27,9 @@ public final class GridsCommand implements Command {
     }
 
     @Override
-    public String execute(UUID playerId, List<String> arguments) {
+    public String execute(PlayerIdStorage playerIdStorage, List<String> arguments) {
         try {
-            return toString(playerId, query.currentGrids(playerId));
+            return toString(playerIdStorage.get(), query.currentGrids(playerIdStorage.get()));
         } catch (GameWasNotFound e) {
             return "Game was not found";
         }
@@ -55,9 +55,13 @@ public final class GridsCommand implements Command {
             );
         }
         return builder.append(System.lineSeparator())
-                .append("Your board:" + System.lineSeparator() + toString(grids.ownedSquares()))
+                .append("Your board:")
                 .append(System.lineSeparator())
-                .append("Opponents board:" + System.lineSeparator() + toString(grids.opponentSquares()))
+                .append(toString(grids.ownedSquares()))
+                .append(System.lineSeparator())
+                .append("Opponents board:")
+                .append(System.lineSeparator())
+                .append(toString(grids.opponentSquares()))
                 .toString();
     }
 

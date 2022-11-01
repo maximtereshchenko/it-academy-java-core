@@ -1,9 +1,11 @@
 package by.it_academy.seabattle.application;
 
 import by.it_academy.seabattle.domain.SeaBattle;
-import by.it_academy.seabattle.ui.RegisterCommand;
+import by.it_academy.seabattle.ui.PlayerCommand;
+import by.it_academy.seabattle.ui.PlayerIdStorage;
 import by.it_academy.seabattle.ui.TextInterface;
 import by.it_academy.seabattle.usecase.SquareQuery;
+import by.it_academy.seabattle.usecase.exception.UnexpectedException;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -45,7 +47,7 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
         try {
             return Files.readString(Paths.get("src/main/resources/bot_token.txt"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UnexpectedException(e);
         }
     }
 
@@ -56,12 +58,7 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
         }
         Message message = update.getMessage();
         long chatId = message.getChat().getId();
-        String input = input(message);
-        String result = textInterface.execute(chats.playerId(chatId).orElse(null), input);
-        if (input.equals(RegisterCommand.NAME)) {
-            chats.save(chatId, UUID.fromString(result));
-        }
-        respond(chatId, result);
+        respond(chatId, textInterface.execute(new PlayerIdInChatsStorage(chatId), input(message)));
     }
 
     private void onAllShipsPositioned(UUID firstPlayerId, UUID secondPlayerId) {
@@ -112,7 +109,7 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
     private String input(Message message) {
         String text = message.getText().toLowerCase(Locale.ROOT);
         if (message.isCommand() && text.equals("/start")) {
-            return RegisterCommand.NAME;
+            return PlayerCommand.NAME;
         }
         return text;
     }
@@ -125,7 +122,26 @@ final class SeaBattleTelegramBot extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            throw new UnexpectedException(e);
+        }
+    }
+
+    private final class PlayerIdInChatsStorage implements PlayerIdStorage {
+
+        private final long chatId;
+
+        private PlayerIdInChatsStorage(long chatId) {
+            this.chatId = chatId;
+        }
+
+        @Override
+        public UUID get() {
+            return chats.playerId(chatId).orElse(null);
+        }
+
+        @Override
+        public void set(UUID id) {
+            chats.save(chatId, id);
         }
     }
 }

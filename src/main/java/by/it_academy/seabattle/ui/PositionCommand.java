@@ -6,7 +6,6 @@ import by.it_academy.seabattle.usecase.exception.ShipIsNotValid;
 import by.it_academy.seabattle.usecase.exception.SquareIsNotValid;
 
 import java.util.List;
-import java.util.UUID;
 
 public final class PositionCommand implements Command {
 
@@ -27,9 +26,9 @@ public final class PositionCommand implements Command {
     }
 
     @Override
-    public String execute(UUID playerId, List<String> arguments) {
+    public String execute(PlayerIdStorage playerIdStorage, List<String> arguments) {
         try {
-            useCase.position(playerId, arguments);
+            useCase.position(playerIdStorage.get(), arguments);
             return "Ship positioned";
         } catch (GameWasNotFound e) {
             return "Game was not found";

@@ -2,7 +2,6 @@ package by.it_academy.seabattle.ui;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public final class HelpCommand implements Command {
@@ -24,7 +23,7 @@ public final class HelpCommand implements Command {
     }
 
     @Override
-    public String execute(UUID playerId, List<String> arguments) {
+    public String execute(PlayerIdStorage playerIdStorage, List<String> arguments) {
         return commands.stream()
                 .map(command -> command.name() + " - " + command.help())
                 .collect(

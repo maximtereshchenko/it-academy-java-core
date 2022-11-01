@@ -2,7 +2,8 @@ package by.it_academy.refactoring.clean.printformat;
 
 import by.it_academy.refactoring.clean.customer.Customer;
 import by.it_academy.refactoring.clean.customer.Rental;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +12,11 @@ public class Json implements PrintingFormat {
 
     @Override
     public String print(final Customer customer) {
-        return new GsonBuilder().setPrettyPrinting().create().toJson(new CustomerJson(customer));
+        try {
+            return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(new CustomerJson(customer));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static final class CustomerJson {

@@ -5,7 +5,6 @@ import by.it_academy.seabattle.usecase.exception.GameWithPlayerExists;
 import by.it_academy.seabattle.usecase.exception.PlayerIsInQueue;
 
 import java.util.List;
-import java.util.UUID;
 
 public final class QueueCommand implements Command {
 
@@ -26,9 +25,9 @@ public final class QueueCommand implements Command {
     }
 
     @Override
-    public String execute(UUID playerId, List<String> arguments) {
+    public String execute(PlayerIdStorage playerIdStorage, List<String> arguments) {
         try {
-            useCase.add(playerId);
+            useCase.add(playerIdStorage.get());
             return "Player added to the queue";
         } catch (PlayerIsInQueue e) {
             return "You are already in queue";

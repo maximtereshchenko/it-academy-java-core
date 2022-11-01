@@ -10,7 +10,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.9.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.4")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4")
     implementation("org.telegram:telegrambots:6.1.0")
     implementation("ch.qos.logback:logback-classic:1.4.4")
     testCompileOnly("org.junit.jupiter:junit-jupiter-api:5.9.0")

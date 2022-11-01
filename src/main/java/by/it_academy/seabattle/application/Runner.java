@@ -43,7 +43,7 @@ final class Runner {
                 new FillGridCommand(seaBattle.fillGridWithRandomShipsUseCase()),
                 new PositionCommand(seaBattle.positionShipUseCase()),
                 new QueueCommand(seaBattle.addPlayerToQueueUseCase()),
-                new RegisterCommand(seaBattle.registerNewPlayerUseCase()),
+                new PlayerCommand(seaBattle.registerNewPlayerUseCase()),
                 new ShootCommand(seaBattle.shootUseCase(), seaBattle.squareQuery())
         );
     }

@@ -5,7 +5,6 @@ import by.it_academy.seabattle.usecase.exception.GameWasNotFound;
 import by.it_academy.seabattle.usecase.exception.GridIsComplete;
 
 import java.util.List;
-import java.util.UUID;
 
 public final class FillGridCommand implements Command {
 
@@ -26,9 +25,9 @@ public final class FillGridCommand implements Command {
     }
 
     @Override
-    public String execute(UUID playerId, List<String> arguments) {
+    public String execute(PlayerIdStorage playerIdStorage, List<String> arguments) {
         try {
-            useCase.fill(playerId);
+            useCase.fill(playerIdStorage.get());
             return "Ships positioned";
         } catch (GameWasNotFound e) {
             return "Game was not found";

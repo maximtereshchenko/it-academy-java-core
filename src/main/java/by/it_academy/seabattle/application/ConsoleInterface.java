@@ -1,7 +1,7 @@
 package by.it_academy.seabattle.application;
 
 import by.it_academy.seabattle.domain.SeaBattle;
-import by.it_academy.seabattle.ui.RegisterCommand;
+import by.it_academy.seabattle.ui.PlayerIdStorage;
 import by.it_academy.seabattle.ui.TextInterface;
 import by.it_academy.seabattle.usecase.SquareQuery;
 
@@ -11,6 +11,7 @@ import java.util.UUID;
 
 final class ConsoleInterface implements Runnable {
 
+    private final PlayerIdStorage storage = new LocalStorage();
     private final TextInterface textInterface;
     private UUID playerId;
 
@@ -29,12 +30,7 @@ final class ConsoleInterface implements Runnable {
     public void run() {
         Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
         while (scanner.hasNextLine()) {
-            String input = scanner.nextLine();
-            String result = textInterface.execute(playerId, input);
-            if (input.equals(RegisterCommand.NAME)) {
-                playerId = UUID.fromString(result);
-            }
-            System.out.println(result);
+            System.out.println(textInterface.execute(storage, scanner.nextLine()));
         }
     }
 
@@ -75,5 +71,18 @@ final class ConsoleInterface implements Runnable {
             return;
         }
         System.out.println("Game is over!");
+    }
+
+    private final class LocalStorage implements PlayerIdStorage {
+
+        @Override
+        public UUID get() {
+            return playerId;
+        }
+
+        @Override
+        public void set(UUID id) {
+            playerId = id;
+        }
     }
 }

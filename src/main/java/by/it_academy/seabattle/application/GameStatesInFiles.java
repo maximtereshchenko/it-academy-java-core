@@ -1,7 +1,10 @@
 package by.it_academy.seabattle.application;
 
 import by.it_academy.seabattle.port.GameStates;
-import com.google.gson.Gson;
+import by.it_academy.seabattle.usecase.exception.UnexpectedException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,7 +16,7 @@ import java.util.stream.Stream;
 final class GameStatesInFiles extends AbstractFilesRepository implements GameStates {
 
     private final Path rootDirectory = Paths.get("games");
-    private final Gson gson = new Gson();
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     GameStatesInFiles() {
         createDirectory(rootDirectory);
@@ -41,7 +44,11 @@ final class GameStatesInFiles extends AbstractFilesRepository implements GameSta
 
     @Override
     public void save(State state) {
-        write(rootDirectory.resolve(state.id().toString()), gson.toJson(state));
+        try {
+            write(rootDirectory.resolve(state.id().toString()), objectMapper.writeValueAsString(state));
+        } catch (JsonProcessingException e) {
+            throw new UnexpectedException(e);
+        }
     }
 
     private boolean hasPlayer(UUID playerId, State state) {
@@ -51,6 +58,14 @@ final class GameStatesInFiles extends AbstractFilesRepository implements GameSta
     private Stream<State> all() {
         return all(rootDirectory)
                 .map(this::read)
-                .map(content -> gson.fromJson(content, GameStates.State.class));
+                .map(this::read);
+    }
+
+    private State read(String json) {
+        try {
+            return objectMapper.readValue(json, State.class);
+        } catch (JsonProcessingException e) {
+            throw new UnexpectedException(e);
+        }
     }
 }

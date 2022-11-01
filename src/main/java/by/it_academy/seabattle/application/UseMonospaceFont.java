@@ -1,9 +1,9 @@
 package by.it_academy.seabattle.application;
 
 import by.it_academy.seabattle.ui.Command;
+import by.it_academy.seabattle.ui.PlayerIdStorage;
 
 import java.util.List;
-import java.util.UUID;
 
 final class UseMonospaceFont implements Command {
 
@@ -24,7 +24,7 @@ final class UseMonospaceFont implements Command {
     }
 
     @Override
-    public String execute(UUID playerId, List<String> arguments) {
-        return "<pre>" + original.execute(playerId, arguments) + "</pre>";
+    public String execute(PlayerIdStorage playerIdStorage, List<String> arguments) {
+        return "<pre>" + original.execute(playerIdStorage, arguments) + "</pre>";
     }
 }
