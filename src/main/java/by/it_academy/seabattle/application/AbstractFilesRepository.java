@@ -1,5 +1,7 @@
 package by.it_academy.seabattle.application;
 
+import by.it_academy.seabattle.usecase.exception.UnexpectedException;
+
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -12,8 +14,9 @@ abstract class AbstractFilesRepository {
         try {
             Files.createDirectory(path);
         } catch (FileAlreadyExistsException ignored) {
+            //ignored
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UnexpectedException(e);
         }
     }
 
@@ -21,7 +24,7 @@ abstract class AbstractFilesRepository {
         try {
             return Files.list(directory);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UnexpectedException(e);
         }
     }
 
@@ -29,7 +32,7 @@ abstract class AbstractFilesRepository {
         try {
             return Files.readString(path);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UnexpectedException(e);
         }
     }
 
@@ -37,7 +40,7 @@ abstract class AbstractFilesRepository {
         try {
             Files.writeString(path, content);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UnexpectedException(e);
         }
     }
 }

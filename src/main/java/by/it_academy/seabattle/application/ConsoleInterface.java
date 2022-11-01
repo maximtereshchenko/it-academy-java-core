@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.UUID;
 
-final class ConsoleInterface implements Runnable {
+final class ConsoleInterface {
 
     private final PlayerIdStorage storage = new LocalStorage();
     private final TextInterface textInterface;
@@ -26,7 +26,6 @@ final class ConsoleInterface implements Runnable {
         seaBattle.addAllShipsPositionedObserverUseCase().add(this::onAllShipsPositioned);
     }
 
-    @Override
     public void run() {
         Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
         while (scanner.hasNextLine()) {
