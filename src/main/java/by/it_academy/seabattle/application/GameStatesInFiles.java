@@ -45,7 +45,10 @@ final class GameStatesInFiles extends AbstractFilesRepository implements GameSta
     @Override
     public void save(State state) {
         try {
-            write(rootDirectory.resolve(state.id().toString()), objectMapper.writeValueAsString(state));
+            write(
+                    rootDirectory.resolve(state.id().toString()),
+                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(state)
+            );
         } catch (JsonProcessingException e) {
             throw new UnexpectedException(e);
         }
