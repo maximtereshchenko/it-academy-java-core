@@ -91,5 +91,6 @@ class State {
         System.out.println("document.status() = " + document.status());
         document.publish();
         System.out.println("document.status() = " + document.status());
+        document.publish();
     }
 }

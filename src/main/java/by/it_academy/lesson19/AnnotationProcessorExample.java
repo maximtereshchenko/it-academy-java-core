@@ -6,7 +6,7 @@ final class AnnotationProcessorExample {
         Person person = new PersonBuilder()
                 .withAge(1)
                 .withFirstName("first")
-                .withLastName("frst")
+                .withLastName("last")
                 .build();
         System.out.println(person);
     }

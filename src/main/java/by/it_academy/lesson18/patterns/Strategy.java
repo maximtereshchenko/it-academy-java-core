@@ -48,5 +48,6 @@ class Strategy {
         player.setMovingStrategy(new Slowed());
         player.move();
         player.setMovingStrategy(new Rooted());
+        player.move();
     }
 }
