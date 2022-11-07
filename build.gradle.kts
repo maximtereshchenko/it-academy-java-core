@@ -14,6 +14,8 @@ tasks.compileJava {
 }
 
 dependencies {
+    implementation(project(":builder"))
+    annotationProcessor(project(":builder"))
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.4")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4")
     implementation("org.telegram:telegrambots:6.1.0")
