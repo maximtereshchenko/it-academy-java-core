@@ -59,7 +59,7 @@ final class WoundedShip extends AbstractShip {
         return Stream.concat(
                         original.view()
                                 .stream()
-                                .filter(this::isHit),
+                                .filter(this::isNotHit),
                         hits.stream()
                                 .map(square -> square.view(GridsQuery.Status.DESTROYED_SHIP_SEGMENT))
                 )
@@ -93,8 +93,8 @@ final class WoundedShip extends AbstractShip {
         return ship;
     }
 
-    private boolean isHit(GridsQuery.SquareView squareView) {
-        return hits.contains(Square.of(squareView.column(), squareView.row()));
+    private boolean isNotHit(GridsQuery.SquareView squareView) {
+        return !hits.contains(Square.of(squareView.column(), squareView.row()));
     }
 
     private boolean allSegmentsHit() {

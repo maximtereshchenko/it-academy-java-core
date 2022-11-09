@@ -123,6 +123,20 @@ class ShootUseCaseTest extends SeaBattleTest {
                 .containsExactlyInAnyOrder(shipSegments());
     }
 
+    @Test
+    void givenPlayerWoundedShip_thenShoot_thenShipViewHasOneSegmentDestroyed() {
+        startBattle();
+        seaBattle.shootUseCase().shoot(firstPlayerId, "f5");
+
+        assertThat(seaBattle.boardsQuery().currentGrids(secondPlayerId).ownedSquares())
+                .contains(
+                        new GridsQuery.SquareView('f', 5, GridsQuery.Status.DESTROYED_SHIP_SEGMENT),
+                        new GridsQuery.SquareView('g', 5, GridsQuery.Status.SHIP_SEGMENT),
+                        new GridsQuery.SquareView('h', 5, GridsQuery.Status.SHIP_SEGMENT),
+                        new GridsQuery.SquareView('i', 5, GridsQuery.Status.SHIP_SEGMENT)
+                );
+    }
+
     private GridsQuery.SquareView[] expectedSquareViews() {
         return Stream.concat(
                         Arrays.stream(shipSegments()),
